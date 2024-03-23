@@ -217,7 +217,6 @@ public class Starter {
                 // { activity pollers, activity exec slots }
                 {5, 200},
                 {5, 800},
-                {20, 800},
                 {80, 800},
                 {80, 1600},
         };
