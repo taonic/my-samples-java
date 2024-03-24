@@ -3,9 +3,10 @@
 ## Prerequisites
 * Install Grafana: https://grafana.com/docs/grafana/latest/setup-grafana/installation/
 * Install Prometheus: https://prometheus.io/docs/prometheus/latest/installation/
-* Update Grafana's config (grafana.ini > [dashboards]) to include `min_refresh_interval = 200ms`
-* Update Promethue's config according to this [sample](/src/main/java/io/temporal/samples/workertuning/config/prometheus.yml)
-  * Make sure `scrape_interval` and `evaluation_interval` are both set at 1s
+* Reduce Grafana and Prometheus's default refresh and scrapping intervals to receive instantaneous feedback.
+  * Update Grafana's config (grafana.ini > [dashboards]) to include `min_refresh_interval = 200ms`
+  * Update Promethue's config according to this [sample](/src/main/java/io/temporal/samples/workertuning/config/prometheus.yml)
+    * Make sure `scrape_interval` and `evaluation_interval` are both set at 1s
 * Import the [sample SDK Metrics dashboard](/src/main/java/io/temporal/samples/workertuning/dashboard/sdk_metrics.yaml) to Grafana.
 
 ## Example setup
