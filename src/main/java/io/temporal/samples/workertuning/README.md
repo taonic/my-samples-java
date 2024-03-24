@@ -10,7 +10,7 @@
 
 ## Example setup
 
-The sample code runs 50 Workflows asynchronously with each schedules 50 Activies in parallel. This configuration produces 2500 Activities simultaneously that would typically overwhelm Workers running on default settings.
+The sample code runs 50 Workflows asynchronously with each schedules 50 Activies in parallel. Each Activity sleeps for 1 to 1.1 seconds and returns a payload at 1KB to simulate a blocking API call. With 2,500 Activities scheduled simultaneously, a typical Worker running on the default settings would struggle to keep up. This scenario presents a good opportunity for using a data driven approach to tune worker settings.
 
 We step through a number of Worker setting combinations that update `MaxConcurrentActivityTaskExecutionSize` and `MaxConcurrentActivityTaskPollers` one at a time while observing the outcome.
 
