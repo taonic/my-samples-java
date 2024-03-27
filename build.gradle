@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.temporal:temporal-sdk:1.23.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation "org.slf4j:slf4j-api:1.6.1"
+    implementation "org.slf4j:slf4j-simple:1.6.1"
+    implementation "io.micrometer:micrometer-registry-prometheus"
+    implementation 'io.micrometer:micrometer-core:1.12.4'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClassName = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "NULL"
+}
