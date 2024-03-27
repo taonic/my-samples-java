@@ -4,14 +4,14 @@
 * Install Grafana: https://grafana.com/docs/grafana/latest/setup-grafana/installation/
 * Install Prometheus: https://prometheus.io/docs/prometheus/latest/installation/
 * Reduce Grafana and Prometheus's default refresh and scrapping intervals to receive instantaneous feedback.
-  * Update Grafana's config (grafana.ini > [dashboards]) to include `min_refresh_interval = 200ms`
-  * Update Promethue's config according to this [sample](/src/main/java/io/temporal/samples/workertuning/config/prometheus.yml)
+  * Update the Grafana config (grafana.ini > [dashboards]) to include `min_refresh_interval = 200ms`
+  * Update Prometheus' config according to this [sample](/src/main/java/io/temporal/samples/workertuning/config/prometheus.yml)
     * Make sure `scrape_interval` and `evaluation_interval` are both set at 1s
 * Import the [sample SDK Metrics dashboard](/src/main/java/io/temporal/samples/workertuning/dashboard/sdk_metrics.yaml) to Grafana.
 
 ## Example setup
 
-The sample code runs 50 Workflows asynchronously with each schedules 50 Activies in parallel. Each Activity sleeps for 1 to 1.1 seconds and returns a payload at 1KB to simulate a blocking API call. With 2,500 Activities scheduled simultaneously, a typical Worker running on the default settings would struggle to keep up. This scenario presents a good opportunity for using a data driven approach to tune worker settings.
+The sample code runs 50 Workflows asynchronously with each schedules 50 Activities in parallel. Each Activity sleeps for 1 to 1.1 seconds and returns a payload at 1KB to simulate a blocking API call. With 2,500 Activities scheduled simultaneously, a typical Worker running on the default settings would struggle to keep up. This scenario presents a good opportunity for using a data driven approach to tune worker settings.
 
 We step through a number of Worker setting combinations that update `MaxConcurrentActivityTaskExecutionSize` and `MaxConcurrentActivityTaskPollers` one at a time while observing the outcome.
 
@@ -24,15 +24,18 @@ export TEMPORAL_CLIENT_KEY="<path_to_client_key>"
 export TEMPORAL_ENDPOINT="<cloud_host_and_port>"
 export TEMPORAL_NAMESPACE="<temporal_namespace>"
 ```
-```
-./gradlew -PmainClass=io.temporal.samples.workertuning.Starter run
-```
 
-## Tunning steps
+## Tuning steps
 
-### Run #1 (default settings)
+### Run #1
+First we will run the example with:
 - 5 Activity Pollers
 - 200 Activity Execution Slots
+
+```
+./gradlew -PmainClass=io.temporal.samples.workertuning.Starter run \
+  -Parg="5 200"
+```
 
 #### Analysis
 - The 28s "Activity Schedule To Start Latency" serves as a clear indication that the worker is overwhelmed by the volume of the Activity tasks.
@@ -42,20 +45,32 @@ export TEMPORAL_NAMESPACE="<temporal_namespace>"
 ![](/src/main/java/io/temporal/samples/workertuning/assets/5x200.png)
 
 ### Run #2
+Next we will increase the Activity Execution Slots to 800:
 - 5 Activity Pollers
 - 800 Activity Execution Slots
 
+```
+./gradlew -PmainClass=io.temporal.samples.workertuning.Starter run \
+  -Parg="5 800"
+```
+
 #### Analysis
 - The "Activity Schedule To Start Latency" has improved to 22s but remains high.
-- Plenty of Activity Slots are Available (>600) through out the test.
+- Plenty of Activity Slots are Available (>600) throughout the test.
 - Based on the 35ms gRPC request latency from the "Long Poll Latency" graph (not included in screenshot), max throughput for 5 poller is 140 RPS (`(1000ms/35ms) * 5`). We can tell from the "Polled Activity Tasks Per Second" graph that we are maxing out the poller capacity.
 - Next step: Increase `MaxConcurrentActivityTaskPollers`
 
 ![](/src/main/java/io/temporal/samples/workertuning/assets/5x800.png)
 
 ### Run #3
+Let's increase the Activity Pollers to 80:
 - 80 Activity Pollers
 - 800 Activity Execution Slots
+
+```
+./gradlew -PmainClass=io.temporal.samples.workertuning.Starter run \
+  -Parg="80 800"
+```
 
 #### Analysis
 - The "Activity Schedule To Start Latency" has improved to 1.7s
@@ -66,8 +81,14 @@ export TEMPORAL_NAMESPACE="<temporal_namespace>"
 
 
 ### Run #4
+Finally, we will increase the Activity Execution Slots to 1600:
 - 80 Activity Pollers
 - 1600 Activity Execution Slots
+
+```
+./gradlew -PmainClass=io.temporal.samples.workertuning.Starter run \
+  -Parg="80 1600"
+```
 
 #### Analysis
 - The "Activity Schedule To Start Latency" has improved to 250ms
