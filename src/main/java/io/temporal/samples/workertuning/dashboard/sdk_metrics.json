@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.4.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,7 +61,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 3,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -44,7 +81,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -53,6 +90,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -66,6 +104,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -122,7 +161,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.95, sum by(le, task_queue) (rate(temporal_workflow_task_schedule_to_start_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -138,7 +177,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -146,6 +185,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -159,6 +199,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -221,7 +262,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_activity_schedule_to_start_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -237,7 +278,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -245,6 +286,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -258,6 +300,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -318,7 +361,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_workflow_endtoend_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -334,7 +377,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -394,15 +437,17 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_workflow_endtoend_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -419,7 +464,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -428,6 +473,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -441,6 +487,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -500,7 +547,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.9, sum by(le, task_queue) (rate(temporal_workflow_task_execution_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -516,7 +563,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -524,6 +571,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -537,6 +585,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -596,7 +645,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_activity_execution_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -612,7 +661,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -620,6 +669,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -633,6 +683,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -692,7 +743,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_activity_succeed_endtoend_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -708,7 +759,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -764,14 +815,16 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_activity_succeed_endtoend_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
@@ -801,7 +854,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -810,6 +863,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -823,6 +877,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -877,7 +932,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(task_queue) (temporal_worker_task_slots_available{worker_type=\"WorkflowWorker\"})",
@@ -893,7 +948,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -903,6 +958,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -916,6 +972,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -973,7 +1030,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(task_queue) (temporal_worker_task_slots_available{worker_type=\"ActivityWorker\"})",
@@ -989,7 +1046,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -998,6 +1055,7 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1011,6 +1069,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1069,7 +1128,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "process_cpu_usage",
@@ -1085,7 +1144,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1126,14 +1185,16 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(worker_type) (temporal_worker_task_slots_available{worker_type=\"WorkflowWorker\"})",
@@ -1149,7 +1210,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1190,14 +1251,16 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(worker_type) (temporal_worker_task_slots_available{worker_type=\"ActivityWorker\"})",
@@ -1226,7 +1289,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1270,8 +1333,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1303,7 +1365,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation, task_queue) (rate(temporal_long_request_total{operation=\"PollWorkflowTaskQueue\"}[$__rate_interval]))",
@@ -1319,7 +1381,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1363,8 +1425,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1396,7 +1457,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation, task_queue) (rate(temporal_long_request_total{operation=\"PollActivityTaskQueue\"}[$__rate_interval]))",
@@ -1412,7 +1473,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1455,8 +1516,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1492,7 +1552,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation, status_code) (rate(temporal_long_request_failure_total[$__rate_interval]))",
@@ -1504,7 +1564,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation, status_code) (rate(temporal_request_failure_total[$__rate_interval]))",
@@ -1521,7 +1581,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1534,8 +1594,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
-                "value": null
+                "color": "purple"
               }
             ]
           },
@@ -1569,7 +1628,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(worker_type) (temporal_poller_start_total{worker_type=\"WorkflowWorker\"})",
@@ -1585,7 +1644,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1598,8 +1657,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               }
             ]
           },
@@ -1633,7 +1691,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(worker_type) (temporal_poller_start_total{worker_type=\"ActivityWorker\"})",
@@ -1649,7 +1707,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1692,8 +1750,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1729,7 +1786,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation) (rate(temporal_long_request_total[5s]))",
@@ -1745,7 +1802,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1788,8 +1845,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1825,7 +1881,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum by(namespace, operation, le) (rate(temporal_long_request_latency_seconds_bucket[5s])))",
@@ -1841,7 +1897,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1884,8 +1940,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1921,7 +1976,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation) (rate(temporal_request_total[$__rate_interval]))",
@@ -1933,7 +1988,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum by(operation) (rate(temporal_long_request_total[$__rate_interval]))",
@@ -1949,7 +2004,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${Datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1992,8 +2047,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2029,7 +2083,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${Datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "histogram_quantile(0.95, sum by(namespace, operation, le) (rate(temporal_request_latency_seconds_bucket[$__rate_interval])))",
@@ -2058,7 +2112,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2100,8 +2154,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2135,7 +2188,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "temporal_sticky_cache_size",
@@ -2151,7 +2204,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2193,8 +2246,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2229,7 +2281,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -2247,7 +2299,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2289,8 +2341,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2325,7 +2376,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum by(worker_type, task_queue) (rate(temporal_sticky_cache_total_forced_eviction_total[2s]))",
@@ -2341,7 +2392,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2383,8 +2434,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2419,7 +2469,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -2437,7 +2487,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2479,8 +2529,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2515,7 +2564,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum by(area) (jvm_memory_used_bytes{area=\"heap\"})",
@@ -2527,7 +2576,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "jvm_memory_max_bytes",
@@ -2543,7 +2592,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2585,8 +2634,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2647,7 +2695,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ebd2e2cb-5edf-4dfd-8881-9a7525a384e1"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "sum(temporal_worker_task_slots_available{worker_type=\"LocalActivityWorker\"})",
@@ -2662,16 +2710,15 @@
     }
   ],
   "refresh": "200ms",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "Prometheus",
-          "value": "Prometheus"
+          "text": "prometheus",
+          "value": "fdg933k9jevwgb"
         },
         "hide": 0,
         "includeAll": false,
@@ -2686,14 +2733,10 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${Datasource}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(namespace)",
         "hide": 0,
@@ -2714,7 +2757,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -2735,18 +2778,10 @@
         "type": "custom"
       },
       {
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${Datasource}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(task_queue)",
         "hide": 0,
@@ -2785,8 +2820,8 @@
     ]
   },
   "timezone": "",
-  "title": "SDK Metrics (Java)",
-  "uid": "whtBuu0Vk",
-  "version": 51,
+  "title": "SDK Metrics (Tao)",
+  "uid": "fsdfgsdfsd",
+  "version": 1,
   "weekStart": ""
 }
