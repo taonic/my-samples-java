@@ -7,7 +7,7 @@
   * Update the Grafana config (grafana.ini > [dashboards]) to include `min_refresh_interval = 200ms`
   * Update Prometheus' config according to this [sample](/src/main/java/io/temporal/samples/workertuning/config/prometheus.yml)
     * Make sure `scrape_interval` and `evaluation_interval` are both set at 1s
-* Import the [sample SDK Metrics dashboard](/src/main/java/io/temporal/samples/workertuning/dashboard/sdk_metrics.yaml) to Grafana.
+* Import the [sample SDK Metrics dashboard](/src/main/java/io/temporal/samples/workertuning/dashboard/sdk_metrics.json) to Grafana.
 
 ## Example setup
 
