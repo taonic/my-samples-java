@@ -28,3 +28,11 @@ test {
 application {
     mainClassName = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "NULL"
 }
+
+task execute(type: JavaExec) {
+    mainClass = findProperty("mainClass") ?: ""
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty("arg")) {
+        args project.getProperty("arg").split("\\s+")
+    }
+}

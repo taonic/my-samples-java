@@ -223,7 +223,7 @@ public class Starter {
 
         int activityPollers = Integer.parseInt(args[0]);
         int activityExecSlots = Integer.parseInt(args[1]);
-        task_queue = String.format("%d/Pollers%d/Slots%d", i, activityPollers, activityExecSlots);
+        task_queue = String.format("Pollers%d/Slots%d", activityPollers, activityExecSlots);
         WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
                 .build();
         WorkerOptions workerOptions = WorkerOptions.newBuilder()
@@ -237,7 +237,8 @@ public class Starter {
         log.info("Completed");
         Thread.sleep(graphPadding.toMillis());
         scrapeEndpoint.stop(0);
-    }
+
         System.exit(0);
-}
+    }
+
 }
