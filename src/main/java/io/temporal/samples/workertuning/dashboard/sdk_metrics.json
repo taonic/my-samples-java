@@ -163,12 +163,17 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "editorMode": "builder",
+          "disableTextWrap": false,
+          "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum by(le, task_queue) (rate(temporal_workflow_task_schedule_to_start_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "interval": "1s",
+          "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Workflow Task Schedule To Start Latency - temporal_workflow_task_schedule_to_start_latency_seconds_bucket",
@@ -264,12 +269,17 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_activity_schedule_to_start_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum by(le, task_queue) (rate(temporal_activity_schedule_to_start_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "interval": "1s",
+          "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Activity Schedule To Start Latency P99 - temporal_activity_schedule_to_start_latency_seconds_bucket",
@@ -363,12 +373,17 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
           "expr": "histogram_quantile(0.99, sum by(le, task_queue) (rate(temporal_workflow_endtoend_latency_seconds_bucket{task_queue=~\"$Taskqueue\"}[$__rate_interval])))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "interval": "1s",
+          "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Workflow End to End Latency P99 - temporal_workflow_endtoend_latency_seconds_bucket",
@@ -2802,7 +2817,7 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -2822,6 +2837,6 @@
   "timezone": "",
   "title": "SDK Metrics (Tao)",
   "uid": "fsdfgsdfsd",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }

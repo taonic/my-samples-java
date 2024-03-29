@@ -216,13 +216,25 @@ public class Starter {
 
     public static void main(String[] args) throws Exception {
         // if no arguments are passed then give a usage example
-        if (args.length == 0) {
-            System.out.println("Usage: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -Parg=\"<activity pollers> <activity exec slots>\"");
+        if (args.length < 2) {
+            System.out.println("Usage: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -PactivityPollers=<activity pollers> -PactivityExecSlots=<activity exec slots> [-Pworkflows=<workflows> -PactivitiesPerWF=<activities per workflow>]");
+            System.out.println("Example: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -PactivityPollers=5 -PactivityExecSlots=200 -Pworkflows=50 -PactivitiesPerWF=50");
             System.exit(1);
         }
 
         int activityPollers = Integer.parseInt(args[0]);
         int activityExecSlots = Integer.parseInt(args[1]);
+        int workflows = 50;
+        int activitiesPerWF = 50;
+
+        if (args.length > 2) {
+            workflows = Integer.parseInt(args[2]);
+        }
+
+        if (args.length > 3) {
+            activitiesPerWF = Integer.parseInt(args[3]);
+        }
+
         task_queue = String.format("Pollers%d/Slots%d", activityPollers, activityExecSlots);
         WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
                 .build();
@@ -233,7 +245,7 @@ public class Starter {
         log.info("Worker options: {}", workerOptions);
         WorkflowClient client = runWorker(factoryOptions, workerOptions);
         Thread.sleep(graphPadding.toMillis()); // to show 10s inactivity to pad the graph
-        runConcurrentWorkflow(client, 50, 50);
+        runConcurrentWorkflow(client, workflows, activitiesPerWF);
         log.info("Completed");
         Thread.sleep(graphPadding.toMillis());
         scrapeEndpoint.stop(0);
