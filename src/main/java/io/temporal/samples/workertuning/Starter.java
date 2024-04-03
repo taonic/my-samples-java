@@ -80,10 +80,10 @@ public class Starter {
         @ActivityMethod(name = "slowActivity")
         byte[] slowActivity(int seconds);
 
-        @ActivityMethod(name= "CPUIntensiveActivity")
+        @ActivityMethod(name = "CPUIntensiveActivity")
         void CPUIntensiveActivity();
 
-        @ActivityMethod(name= "largeActivity")
+        @ActivityMethod(name = "largeActivity")
         byte[] largeActivity();
     }
 
@@ -100,12 +100,14 @@ public class Starter {
                 return fibRecursion(count - 1) + fibRecursion(count - 2);
             }
         }
+
         @Override
         public void CPUIntensiveActivity() {
             long start = System.currentTimeMillis();
             fibRecursion(42); // takes about 2-3s
             log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
         }
+
         @Override
         public byte[] slowActivity(int seconds) {
             long start = System.currentTimeMillis();
@@ -128,7 +130,7 @@ public class Starter {
                 throw new RuntimeException(e);
             }
             log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
-            return new byte[10*1024]; // 10KiB
+            return new byte[10 * 1024]; // 10KiB
         }
     }
 
@@ -148,7 +150,7 @@ public class Starter {
         @Override
         public void doWork(int concurrency) {
             List<Promise<byte[]>> promises = new ArrayList<>();
-            for (int i=0; i<concurrency;i++) {
+            for (int i = 0; i < concurrency; i++) {
                 promises.add(Async.function(activities::slowActivity, 1));
                 //promises.add(Async.procedure(activities::CPUIntensiveActivity));
                 //promises.add(Async.function(activities::largeActivity));
@@ -200,7 +202,7 @@ public class Starter {
     private static void runConcurrentWorkflow(WorkflowClient client, int workflows, int activitiesPerWF) throws Exception {
         log.info("Running {} workflows concurrently with {} activities each", workflows, activitiesPerWF);
         ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
-        for (int i = 0; i < workflows; i++ ) {
+        for (int i = 0; i < workflows; i++) {
             WorkflowOptions workflowOptions =
                     WorkflowOptions.newBuilder()
                             .setTaskQueue(task_queue)
@@ -213,31 +215,42 @@ public class Starter {
     }
 
     public static void main(String[] args) throws Exception {
-        int[][] combinations = {
-                // { activity pollers, activity exec slots }
-                {5, 200},
-                {5, 800},
-                {80, 800},
-                {80, 1600},
-        };
-        for (int i = 0; i < combinations.length; i++) {
-            int activityPollers = combinations[i][0];
-            int activityExecSlots = combinations[i][1];
-            task_queue = String.format("%d/Pollers%d/Slots%d", i, activityPollers, activityExecSlots);
-            WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
-                    .build();
-            WorkerOptions workerOptions = WorkerOptions.newBuilder()
-                    .setMaxConcurrentActivityTaskPollers(activityPollers) // default 5
-                    .setMaxConcurrentActivityExecutionSize(activityExecSlots) // default 200
-                    .build();
-            log.info("Worker options: {}", workerOptions);
-            WorkflowClient client = runWorker(factoryOptions, workerOptions);
-            Thread.sleep(graphPadding.toMillis()); // to show 10s inactivity to pad the graph
-            runConcurrentWorkflow(client, 50, 50);
-            log.info("Completed");
-            Thread.sleep(graphPadding.toMillis());
-            scrapeEndpoint.stop(0);
+        // if no arguments are passed then give a usage example
+        if (args.length < 2) {
+            System.out.println("Usage: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -PactivityPollers=<activity pollers> -PactivityExecSlots=<activity exec slots> [-Pworkflows=<workflows> -PactivitiesPerWF=<activities per workflow>]");
+            System.out.println("Example: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -PactivityPollers=5 -PactivityExecSlots=200 -Pworkflows=50 -PactivitiesPerWF=50");
+            System.exit(1);
         }
+
+        int activityPollers = Integer.parseInt(args[0]);
+        int activityExecSlots = Integer.parseInt(args[1]);
+        int workflows = 50;
+        int activitiesPerWF = 50;
+
+        if (args.length > 2) {
+            workflows = Integer.parseInt(args[2]);
+        }
+
+        if (args.length > 3) {
+            activitiesPerWF = Integer.parseInt(args[3]);
+        }
+
+        task_queue = String.format("Pollers%d/Slots%d", activityPollers, activityExecSlots);
+        WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
+                .build();
+        WorkerOptions workerOptions = WorkerOptions.newBuilder()
+                .setMaxConcurrentActivityTaskPollers(activityPollers) // default 5
+                .setMaxConcurrentActivityExecutionSize(activityExecSlots) // default 200
+                .build();
+        log.info("Worker options: {}", workerOptions);
+        WorkflowClient client = runWorker(factoryOptions, workerOptions);
+        Thread.sleep(graphPadding.toMillis()); // to show 10s inactivity to pad the graph
+        runConcurrentWorkflow(client, workflows, activitiesPerWF);
+        log.info("Completed");
+        Thread.sleep(graphPadding.toMillis());
+        scrapeEndpoint.stop(0);
+
         System.exit(0);
-   }
+    }
+
 }

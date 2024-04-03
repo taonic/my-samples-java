@@ -28,3 +28,21 @@ test {
 application {
     mainClassName = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "NULL"
 }
+
+task execute(type: JavaExec) {
+    mainClass = findProperty("mainClass") ?: ""
+    classpath = sourceSets.main.runtimeClasspath
+
+    if (project.hasProperty("activityPollers") && project.hasProperty("activityExecSlots")) {
+        args project.getProperty("activityPollers")
+        args project.getProperty("activityExecSlots")
+
+        if (project.hasProperty("workflows")) {
+            args project.getProperty("workflows")
+        }
+
+        if (project.hasProperty("activitiesPerWF")) {
+            args project.getProperty("activitiesPerWF")
+        }
+    }
+}
