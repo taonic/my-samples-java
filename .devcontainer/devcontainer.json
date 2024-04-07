@@ -1,0 +1,31 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+	"name": "Temporal Worker Tuning",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"installGradle": true,
+			"version": "17",
+			"jdkDistro": "ms",
+			"gradleVersion": "latest"
+		},
+		"ghcr.io/devcontainers-contrib/features/prometheus:1": {
+			"version": "latest"
+		},
+		"ghcr.io/schlich/devcontainer-features/grafana:1": {}
+	},
+	"forwardPorts": [9090, 9999],
+	"onCreateCommand": "curl -sS https://webi.sh/gh | sh",
+	"postStartCommand": {
+		"prometheus": "nohup bash -c 'prometheus --config.file=config/prometheus.yaml &'",
+		"grafana": "nohup bash -c 'sudo grafana-server --config config/grafana.ini --homepath /usr/share/grafana start &'",
+		"region": "bash -c 'gh api /user/codespaces/$CODESPACE_NAME --jq .location'"
+	},
+	"hostRequirements": {
+		"cpus": 2,
+		"memory": "4gb"
+	}
+}
