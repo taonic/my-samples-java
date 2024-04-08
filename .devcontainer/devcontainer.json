@@ -1,5 +1,5 @@
 // For format details, see https://aka.ms/devcontainer.json.
-// This a dev container is for demonstrating Temporal worker (Java SDK) performance tuning with built-in Prometheus and Grafana.
+// This dev container is for demonstrating Temporal worker (Java SDK) performance tuning with built-in Prometheus and Grafana.
 {
 	"name": "Temporal Worker Tuning",
 	"build": {
