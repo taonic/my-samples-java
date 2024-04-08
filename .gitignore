@@ -3,3 +3,8 @@
 .gradle
 build
 build.gradle
+bin
+data
+cert.pem
+key.pem
+nohup.out
