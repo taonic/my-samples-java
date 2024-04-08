@@ -25,7 +25,7 @@
 		"region": "bash -c 'gh api /user/codespaces/$CODESPACE_NAME --jq .location'"
 	},
 	"hostRequirements": {
-		"cpus": 2,
+		"cpus": 1,
 		"memory": "4gb"
 	}
 }
