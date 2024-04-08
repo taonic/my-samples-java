@@ -1,5 +1,5 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+// For format details, see https://aka.ms/devcontainer.json.
+// This a dev container is for demonstrating Temporal worker (Java SDK) performance tuning with built-in Prometheus and Grafana.
 {
 	"name": "Temporal Worker Tuning",
 	"build": {
@@ -17,7 +17,11 @@
 		},
 		"ghcr.io/schlich/devcontainer-features/grafana:1": {}
 	},
-	"forwardPorts": [9090, 9999],
+	"forwardPorts": [8077, 9090, 9999],
+	"postCreateCommand": {
+		// Ping AWS regions with #cping -aws
+		"cping": "sudo wget -O /bin/cping https://github.com/c1982/cloudping/releases/download/v1.0/cping_linux_amd64 && sudo chmod +x /bin/cping"
+	},
 	"postStartCommand": {
 		"prometheus": "nohup bash -c 'prometheus --config.file=config/prometheus.yaml &'",
 		"grafana": "nohup bash -c 'sudo grafana-server --config config/grafana.ini --homepath /usr/share/grafana start &'"
