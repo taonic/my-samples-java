@@ -18,11 +18,9 @@
 		"ghcr.io/schlich/devcontainer-features/grafana:1": {}
 	},
 	"forwardPorts": [9090, 9999],
-	"onCreateCommand": "curl -sS https://webi.sh/gh | sh",
 	"postStartCommand": {
 		"prometheus": "nohup bash -c 'prometheus --config.file=config/prometheus.yaml &'",
-		"grafana": "nohup bash -c 'sudo grafana-server --config config/grafana.ini --homepath /usr/share/grafana start &'",
-		"region": "bash -c 'gh api /user/codespaces/$CODESPACE_NAME --jq .location'"
+		"grafana": "nohup bash -c 'sudo grafana-server --config config/grafana.ini --homepath /usr/share/grafana start &'"
 	},
 	"hostRequirements": {
 		"cpus": 1,
