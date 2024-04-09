@@ -19,6 +19,12 @@ dependencies {
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation 'io.micrometer:micrometer-core:1.12.4'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'info.picocli:picocli:4.7.5'
+    annotationProcessor 'info.picocli:picocli-codegen:4.7.5'
+}
+
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 test {
@@ -32,17 +38,4 @@ application {
 task execute(type: JavaExec) {
     mainClass = findProperty("mainClass") ?: ""
     classpath = sourceSets.main.runtimeClasspath
-
-    if (project.hasProperty("activityPollers") && project.hasProperty("activityExecSlots")) {
-        args project.getProperty("activityPollers")
-        args project.getProperty("activityExecSlots")
-
-        if (project.hasProperty("workflows")) {
-            args project.getProperty("workflows")
-        }
-
-        if (project.hasProperty("activitiesPerWF")) {
-            args project.getProperty("activitiesPerWF")
-        }
-    }
 }

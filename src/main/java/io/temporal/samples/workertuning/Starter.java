@@ -45,23 +45,25 @@ import io.temporal.workflow.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import picocli.CommandLine;
 
 import javax.net.ssl.SSLException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import static picocli.CommandLine.*;
 
 /**
  * This example demonstrates a number of worker tuning techniques based a range of resource contention scenarios
  */
-public class Starter {
+@Command(name = "worker_tuning_example", description = "Runs Temporal Worker tuning example")
+public class Starter implements Runnable {
     static final boolean useCloud = true;
     private static final Logger log =
             LoggerFactory.getLogger(Starter.class);
@@ -75,6 +77,30 @@ public class Starter {
 
     static final Duration graphPadding = Duration.ofSeconds(5);
 
+    @Option(names = "--activity-pollers", description = "The number of Activity pollers", defaultValue = "5")
+    static int activityPollers;
+
+    @Option(names = "--activity-slots", description = "The number of Activity execution slots", defaultValue = "200")
+    static int activityExecSlots;
+
+    @Option(names = "--workflows", description = "The number of concurrent Workflows", defaultValue = "50")
+    static int workflows;
+
+    @Option(names = "--activities-per-workflow", description = "The number of Activities per Workflow", defaultValue = "50")
+    static int activitiesPerWF;
+
+    @Option(names = "--temporal-namespace", description = "The Temporal namespace to connect to", required = true)
+    static String temporal_namespace;
+
+    @Option(names = "--temporal-endpoint", description = "The Temporal endpoint to connect to", required = true)
+    static String temporal_endpoint;
+
+    @Option(names = "--client-key-path", description = "The mTLS client key for authenticating to the namespace", required = true)
+    static String client_key_path;
+
+    @Option(names = "--client-cert-path", description = "The mTLS client certificate for authenticating to the namespace", required = true)
+    static String client_cert_path;
+
     @ActivityInterface
     public interface SlowActivities {
         @ActivityMethod(name = "slowActivity")
@@ -87,9 +113,9 @@ public class Starter {
         byte[] largeActivity();
     }
 
-    static class DifficultActivitiesImpl implements SlowActivities {
+    static class SlowActivitiesImpl implements SlowActivities {
         private static final Logger log =
-                LoggerFactory.getLogger(DifficultActivitiesImpl.class);
+                LoggerFactory.getLogger(SlowActivitiesImpl.class);
 
         private int fibRecursion(int count) {
             if (count == 0) {
@@ -179,13 +205,12 @@ public class Starter {
                 .setMetricsScope(scope);
         WorkflowClientOptions.Builder wfClientBuilder = WorkflowClientOptions.newBuilder();
         if (useCloud) {
-            InputStream clientCert = new FileInputStream(System.getenv("TEMPORAL_CLIENT_CERT"));
-            InputStream clientKey = new FileInputStream(System.getenv("TEMPORAL_CLIENT_KEY"));
-            String targetEndpoint = System.getenv("TEMPORAL_ENDPOINT");
+            InputStream clientCert = new FileInputStream(client_cert_path);
+            InputStream clientKey = new FileInputStream(client_key_path);
             wfServiceOptionsBuilder
                     .setSslContext(SimpleSslContextBuilder.forPKCS8(clientCert, clientKey).build())
-                    .setTarget(targetEndpoint);
-            wfClientBuilder.setNamespace(System.getenv("TEMPORAL_NAMESPACE"));
+                    .setTarget(temporal_endpoint);
+            wfClientBuilder.setNamespace(temporal_namespace);
         }
         WorkflowServiceStubs service = WorkflowServiceStubs.newServiceStubs(wfServiceOptionsBuilder.build());
         WorkflowClient client = WorkflowClient.newInstance(service, wfClientBuilder.build());
@@ -194,7 +219,7 @@ public class Starter {
         WorkerFactory factory = WorkerFactory.newInstance(client, factoryOptions);
         Worker worker = factory.newWorker(task_queue, workerOptions);
         worker.registerWorkflowImplementationTypes(WorkerTuningWorkflowImpl.class);
-        worker.registerActivitiesImplementations(new DifficultActivitiesImpl());
+        worker.registerActivitiesImplementations(new SlowActivitiesImpl());
         factory.start();
         return client;
     }
@@ -214,27 +239,8 @@ public class Starter {
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
     }
 
-    public static void main(String[] args) throws Exception {
-        // if no arguments are passed then give a usage example
-        if (args.length < 2) {
-            System.out.println("Usage: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -PactivityPollers=<activity pollers> -PactivityExecSlots=<activity exec slots> [-Pworkflows=<workflows> -PactivitiesPerWF=<activities per workflow>]");
-            System.out.println("Example: ./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter -PactivityPollers=5 -PactivityExecSlots=200 -Pworkflows=50 -PactivitiesPerWF=50");
-            System.exit(1);
-        }
-
-        int activityPollers = Integer.parseInt(args[0]);
-        int activityExecSlots = Integer.parseInt(args[1]);
-        int workflows = 50;
-        int activitiesPerWF = 50;
-
-        if (args.length > 2) {
-            workflows = Integer.parseInt(args[2]);
-        }
-
-        if (args.length > 3) {
-            activitiesPerWF = Integer.parseInt(args[3]);
-        }
-
+    @Override
+    public void run() {
         task_queue = String.format("Pollers%d/Slots%d", activityPollers, activityExecSlots);
         WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
                 .build();
@@ -243,14 +249,20 @@ public class Starter {
                 .setMaxConcurrentActivityExecutionSize(activityExecSlots) // default 200
                 .build();
         log.info("Worker options: {}", workerOptions);
-        WorkflowClient client = runWorker(factoryOptions, workerOptions);
-        Thread.sleep(graphPadding.toMillis()); // to show 10s inactivity to pad the graph
-        runConcurrentWorkflow(client, workflows, activitiesPerWF);
-        log.info("Completed");
-        Thread.sleep(graphPadding.toMillis());
+        try {
+            WorkflowClient client = runWorker(factoryOptions, workerOptions);
+            Thread.sleep(graphPadding.toMillis()); // to show 10s inactivity to pad the graph
+            runConcurrentWorkflow(client, workflows, activitiesPerWF);
+            log.info("Completed");
+            Thread.sleep(graphPadding.toMillis());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         scrapeEndpoint.stop(0);
-
         System.exit(0);
     }
 
+    public static void main(String[] args) {
+        new CommandLine(new Starter()).execute(args);
+    }
 }
