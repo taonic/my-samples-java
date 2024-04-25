@@ -34,11 +34,6 @@ import io.temporal.workflow.unsafe.WorkflowUnsafe;
 
 /**
  * Sample Temporal Workflow Definition that demonstrates retrying Workflow on non-deterministic errors.
- * How to run it:
- * You'll need to restart the program after the first appearance of "Is replaying: false" in order to trigger a replay.
- * "Is replaying: true" will be displayed immediately to indicate the workflow is being replayed.
- * On the UI, you should see a new workflow running with the old one failed due to NDE. If you don't restart the worker,
- * the newly started workflow should run to completion after 10s.
  */
 public class RetryNDE {
 
@@ -55,13 +50,20 @@ public class RetryNDE {
     }
 
     public static class GreetingWorkflowImpl implements RetryNDEWorkflow {
-
         @Override
         public String getGreeting() {
-            // Induce a NDE
-            System.out.println("Is replaying: " + WorkflowUnsafe.isReplaying());
+            System.out.println("Run ID: " + Workflow.getInfo().getRunId());
+
             if (WorkflowUnsafe.isReplaying()) {
+                // Create a side effect only during replay to induce an non-deterministic error.
+                System.out.println("Forcing an NDE");
                 Workflow.sideEffect(String.class, () -> "forcing an NDE");
+            } else {
+                if (Workflow.getInfo().getAttempt() == 1) {
+                    System.out.println("You have 10 seconds to restart the worker to trigger an NDE");
+                } else {
+                    System.out.println("This is a retried workflow. Wait for 10 seconds until it completes.");
+                }
             }
 
             // Give enough time to restart the worker
