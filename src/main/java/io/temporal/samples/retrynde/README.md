@@ -8,12 +8,12 @@ and `NonDeterministicException.class` to trigger a Workflow execution failure. I
 
 To run the sample locally:
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.retrynde.RetryNDE
+./gradlew -q execute -PmainClass=io.temporal.samples.retrynde.TimeoutHandler
 ```
 
 Or against Temporal Cloud:
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.retrynde.RetryNDE --args=" \
+./gradlew -q execute -PmainClass=io.temporal.samples.retrynde.TimeoutHandler --args=" \
 --client-cert-path=<path-to-cert> --client-key-path=<path-to-key> \
 --temporal-endpoint=<namespace>.<account>.tmprl.cloud:7233 --temporal-namespace=<namespace>.<account>"
 ```

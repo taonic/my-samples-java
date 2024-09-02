@@ -19,6 +19,7 @@
 
 package io.temporal.samples.workertuning;
 
+import com.google.gson.internal.UnsafeAllocator;
 import com.sun.net.httpserver.HttpServer;
 import com.uber.m3.tally.RootScopeBuilder;
 import com.uber.m3.tally.Scope;
@@ -42,6 +43,7 @@ import io.temporal.worker.WorkerFactory;
 import io.temporal.worker.WorkerFactoryOptions;
 import io.temporal.worker.WorkerOptions;
 import io.temporal.workflow.*;
+import io.temporal.workflow.unsafe.WorkflowUnsafe;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,19 +88,19 @@ public class Starter implements Runnable {
     @Option(names = "--workflows", description = "The number of concurrent Workflows", defaultValue = "50")
     static int workflows;
 
-    @Option(names = "--activities-per-workflow", description = "The number of Activities per Workflow", defaultValue = "50")
+    @Option(names = "--activities-per-workflow", description = "The number of Activities per Workflow", defaultValue = "1")
     static int activitiesPerWF;
 
-    @Option(names = "--temporal-namespace", description = "The Temporal namespace to connect to", required = true)
+    @Option(names = "--temporal-namespace", description = "The Temporal namespace to connect to")
     static String temporal_namespace;
 
-    @Option(names = "--temporal-endpoint", description = "The Temporal endpoint to connect to", required = true)
+    @Option(names = "--temporal-endpoint", description = "The Temporal endpoint to connect to")
     static String temporal_endpoint;
 
-    @Option(names = "--client-key-path", description = "The mTLS client key for authenticating to the namespace", required = true)
+    @Option(names = "--client-key-path", description = "The mTLS client key for authenticating to the namespace")
     static String client_key_path;
 
-    @Option(names = "--client-cert-path", description = "The mTLS client certificate for authenticating to the namespace", required = true)
+    @Option(names = "--client-cert-path", description = "The mTLS client certificate for authenticating to the namespace")
     static String client_cert_path;
 
     @ActivityInterface
@@ -113,7 +115,7 @@ public class Starter implements Runnable {
         byte[] largeActivity();
     }
 
-    static class SlowActivitiesImpl implements SlowActivities {
+    public static class SlowActivitiesImpl implements SlowActivities {
         private static final Logger log =
                 LoggerFactory.getLogger(SlowActivitiesImpl.class);
 
@@ -144,18 +146,18 @@ public class Starter implements Runnable {
                 throw new RuntimeException(e);
             }
             log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
-            return new byte[1024];
+            return new byte[1];
         }
 
         @Override
         public byte[] largeActivity() {
-            long start = System.currentTimeMillis();
+            //long start = System.currentTimeMillis();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
+            //log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
             return new byte[10 * 1024]; // 10KiB
         }
     }
@@ -204,7 +206,7 @@ public class Starter implements Runnable {
         WorkflowServiceStubsOptions.Builder wfServiceOptionsBuilder = WorkflowServiceStubsOptions.newBuilder()
                 .setMetricsScope(scope);
         WorkflowClientOptions.Builder wfClientBuilder = WorkflowClientOptions.newBuilder();
-        if (useCloud) {
+        if (temporal_namespace != null) {
             InputStream clientCert = new FileInputStream(client_cert_path);
             InputStream clientKey = new FileInputStream(client_key_path);
             wfServiceOptionsBuilder
@@ -241,6 +243,7 @@ public class Starter implements Runnable {
 
     @Override
     public void run() {
+        System.out.println(System.getProperties().get("MaxDirectMemorySize"));
         task_queue = String.format("Pollers%d/Slots%d", activityPollers, activityExecSlots);
         WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
                 .build();

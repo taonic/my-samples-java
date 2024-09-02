@@ -17,26 +17,26 @@
  *  permissions and limitations under the License.
  */
 
-package io.temporal.samples.retrynde;
+package io.temporal.samples.timeoutHandler;
 
 import com.sun.net.httpserver.HttpServer;
 import com.uber.m3.tally.RootScopeBuilder;
 import com.uber.m3.tally.Scope;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
+import io.temporal.activity.ActivityOptions;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.common.reporter.MicrometerClientStatsReporter;
 import io.temporal.samples.workertuning.MetricsUtils;
+import io.temporal.samples.workertuning.Starter;
 import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.worker.*;
-import io.temporal.workflow.Workflow;
-import io.temporal.workflow.WorkflowInterface;
-import io.temporal.workflow.WorkflowMethod;
-import io.temporal.workflow.unsafe.WorkflowUnsafe;
+import io.temporal.workflow.*;
+import io.temporal.workflow.Functions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
@@ -48,22 +48,19 @@ import java.io.InputStream;
 import static picocli.CommandLine.*;
 import java.time.Duration;
 
-/**
- * Sample Temporal Workflow Definition that demonstrates retrying Workflow on non-deterministic errors.
- */
-@Command(name = "retry_nde_example", description = "")
-public class RetryNDE implements Runnable {
+@Command(name = "timeout_handler_example", description = "")
+public class TimeoutHandler implements Runnable {
 
     private static final Logger log =
-            LoggerFactory.getLogger(io.temporal.samples.retrynde.RetryNDE.class);
+            LoggerFactory.getLogger(TimeoutHandler.class);
 
     private static HttpServer scrapeEndpoint;
 
     // Define the task queue name
-    static final String TASK_QUEUE = "RetryNDETaskQueue";
+    static final String TASK_QUEUE = "TimeoutHandlerTaskQueue";
 
     // Define the workflow unique id
-    static final String WORKFLOW_ID = "RetryNDEWorkflow";
+    static final String WORKFLOW_ID = "TimeoutHandlerWorkflow";
 
     @CommandLine.Option(names = "--temporal-namespace", description = "The Temporal namespace to connect to")
     static String temporal_namespace;
@@ -81,35 +78,31 @@ public class RetryNDE implements Runnable {
     static int metric_port;
 
     @WorkflowInterface
-    public interface RetryNDEWorkflow {
+    public interface TimeoutHandlerWorkflow {
         @WorkflowMethod
         String getGreeting();
     }
 
-    public static class RetryNDEWorkflowImpl implements RetryNDEWorkflow {
+    public static class TimeoutHandlerWorkflowImpl implements TimeoutHandlerWorkflow {
+        private static final Logger logger = Workflow.getLogger(TimeoutHandlerWorkflow.class);
+
+        private final Starter.SlowActivities activities =
+                Workflow.newActivityStub(Starter.SlowActivities.class,
+                        ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(30)).build());
         @Override
         public String getGreeting() {
-            try {
-                if (WorkflowUnsafe.isReplaying()) {
-                    // Create a side effect only during replay to induce an non-deterministic error.
-                    System.out.println("Forcing an NDE to fail the workflow");
-                    Workflow.sideEffect(String.class, () -> "I'm a side effect to cause an NDE");
-                } else {
-                    if (Workflow.getInfo().getAttempt() == 1) {
-                        System.out.println("You have 10 seconds to restart the worker to trigger an NDE");
-                    } else {
-                        System.out.println("This is a retried workflow. Wait for 10 seconds until it completes.");
-                    }
-                }
-
-                // Give enough time to restart the worker
-                Workflow.sleep(10000);
-                return "done";
-            } catch (NonDeterministicException err) {
-                System.out.println("caught NDE");
-                System.out.println(err);
-                return err.toString();
+            Async.function(this::timeoutWatcher, Duration.ofSeconds(3));
+            for (int i = 0; i< 5; i++) {
+                activities.slowActivity(2);
             }
+            return "done";
+        }
+
+        private Func<Void> timeoutWatcher(Duration duration) {
+            Workflow.sleep(duration);
+            logger.info("Timeout detected after " + duration);
+            Workflow.getMetricsScope().counter("timeout_detected").inc(1);
+            return timeoutWatcher(duration);
         }
     }
 
@@ -145,7 +138,8 @@ public class RetryNDE implements Runnable {
                 WorkflowImplementationOptions.newBuilder()
                         .setFailWorkflowExceptionTypes(NonDeterministicException.class)
                         .build();
-        worker.registerWorkflowImplementationTypes(options, io.temporal.samples.retrynde.RetryNDE.RetryNDEWorkflowImpl.class);
+        worker.registerWorkflowImplementationTypes(options, TimeoutHandler.TimeoutHandlerWorkflowImpl.class);
+        worker.registerActivitiesImplementations(new Starter.SlowActivitiesImpl());
         factory.start();
         return client;
     }
@@ -159,14 +153,10 @@ public class RetryNDE implements Runnable {
             throw new RuntimeException("Failed to start worker", e);
         }
 
-        // Set retry policy on workflow. This is usually not recommended, but we are demonstrating a special case
-        // that forces workflow re-run on a non-deterministic error.
-        RetryNDEWorkflow workflow =
+        TimeoutHandlerWorkflow workflow =
                 client.newWorkflowStub(
-                        RetryNDEWorkflow.class,
+                        TimeoutHandlerWorkflow.class,
                         WorkflowOptions.newBuilder()
-                                //.setRetryOptions(RetryOptions.newBuilder().build())
-                                .setWorkflowTaskTimeout(Duration.ofSeconds(1))
                                 .setWorkflowId(WORKFLOW_ID)
                                 .setTaskQueue(TASK_QUEUE)
                                 .build());
@@ -184,6 +174,6 @@ public class RetryNDE implements Runnable {
     }
 
     public static void main(String[] args) {
-        new CommandLine(new io.temporal.samples.retrynde.RetryNDE()).execute(args);
+        new CommandLine(new TimeoutHandler()).execute(args);
     }
 }
