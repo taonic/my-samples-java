@@ -24,11 +24,11 @@ import io.temporal.activity.ActivityMethod;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
+import io.temporal.common.RetryOptions;
+import io.temporal.failure.ApplicationFailure;
 import io.temporal.samples.workertuning.Starter;
 import io.temporal.serviceclient.WorkflowServiceStubs;
-import io.temporal.worker.Worker;
-import io.temporal.worker.WorkerFactory;
-import io.temporal.worker.WorkflowImplementationOptions;
+import io.temporal.worker.*;
 import io.temporal.workflow.*;
 import org.slf4j.Logger;
 import picocli.CommandLine;
@@ -61,20 +61,19 @@ public class GroupedActivities implements Runnable {
 
         private final GreetingActivities activities =
                 Workflow.newActivityStub(GreetingActivities.class,
-                        ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(30)).build());
+                        ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(5)).build());
         @Override
         public String run() {
             List<String> results = new ArrayList<>();
             List<Promise<String>> promises = new ArrayList<>();
             promises.add(Async.function(this::activityGroup1));
             promises.add(Async.function(this::activityGroup2));
-            Promise.allOf(promises).get();
-            for (int i = 0; i < promises.size(); i++) {
-                Promise<String> promise = promises.get(i);
+            for (Promise<String> promise : promises) {
                 if (promise.getFailure() == null) {
-                    results.add(String.format("Group%d: %s", i + 1, promise.get()));
+                    results.add(promise.get());
                 } else {
-                    // handle failed promise
+                    // handle failed activity
+                    logger.error("Failed activity", promise.getFailure());
                 }
             }
             return String.join(", ", results);
@@ -91,13 +90,12 @@ public class GroupedActivities implements Runnable {
             List<Promise<String>> promises = new ArrayList<>();
             promises.add(Async.function(activities::composeGreeting, "hello", "world1"));
             promises.add(Async.function(activities::composeGreeting, "hello", "world2"));
-
-            Promise.allOf(promises).get();
             for (Promise<String> promise : promises) {
                 if (promise.getFailure() == null) {
                     results.add(promise.get());
                 } else {
-                    // handle failed promise
+                    // handle failed activity
+                    logger.error("Failed activity", promise.getFailure());
                 }
             }
             return String.join(", ", results);
@@ -107,6 +105,10 @@ public class GroupedActivities implements Runnable {
     static class GreetingActivitiesImpl implements GreetingActivities {
         @Override
         public String composeGreeting(String greeting, String name) {
+            // conditionally fail an activity
+            if (name.equals("world2")) {
+                throw ApplicationFailure.newNonRetryableFailure("test", "test");
+            }
             return greeting + " " + name;
         }
     }
