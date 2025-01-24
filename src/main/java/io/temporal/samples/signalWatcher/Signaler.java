@@ -27,6 +27,7 @@ import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 import io.temporal.workflow.*;
 import io.temporal.workflow.Functions.Func;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import picocli.CommandLine;
 
@@ -37,13 +38,18 @@ import static picocli.CommandLine.Command;
 
 @Command
 public class Signaler implements Runnable {
+    @SneakyThrows
     @Override
     public void run() {
         WorkflowServiceStubs service = WorkflowServiceStubs.newLocalServiceStubs();
         WorkflowClient client = WorkflowClient.newInstance(service);
 
         WorkflowStub workflow = client.newUntypedWorkflowStub(Runner.WORKFLOW_ID);
-        workflow.signal("resolve");
+        System.out.println("Sending signal 1");
+        workflow.signal("resolve", 1);
+        Thread.sleep(5000);
+        System.out.println("Sending signal 2");
+        workflow.signal("resolve", 2);
         System.exit(0);
     }
 

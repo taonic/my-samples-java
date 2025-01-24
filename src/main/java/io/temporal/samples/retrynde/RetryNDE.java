@@ -33,6 +33,7 @@ import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.worker.*;
+import io.temporal.workflow.SignalMethod;
 import io.temporal.workflow.Workflow;
 import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
@@ -84,6 +85,9 @@ public class RetryNDE implements Runnable {
     public interface RetryNDEWorkflow {
         @WorkflowMethod
         String getGreeting();
+
+        @SignalMethod
+        void can();
     }
 
     public static class RetryNDEWorkflowImpl implements RetryNDEWorkflow {
@@ -110,6 +114,12 @@ public class RetryNDE implements Runnable {
                 System.out.println(err);
                 return err.toString();
             }
+        }
+
+        @Override
+        public void can() {
+            RetryNDEWorkflow continueAsNew = Workflow.newContinueAsNewStub(RetryNDEWorkflow.class);
+            continueAsNew.getGreeting();
         }
     }
 
@@ -143,7 +153,7 @@ public class RetryNDE implements Runnable {
         Worker worker = factory.newWorker(TASK_QUEUE);
         WorkflowImplementationOptions options =
                 WorkflowImplementationOptions.newBuilder()
-                        .setFailWorkflowExceptionTypes(NonDeterministicException.class)
+                        //.setFailWorkflowExceptionTypes(NonDeterministicException.class)
                         .build();
         worker.registerWorkflowImplementationTypes(options, io.temporal.samples.retrynde.RetryNDE.RetryNDEWorkflowImpl.class);
         factory.start();

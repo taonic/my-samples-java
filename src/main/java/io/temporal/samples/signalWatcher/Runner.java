@@ -26,6 +26,7 @@ import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 import io.temporal.workflow.*;
 import io.temporal.workflow.Functions.Func;
+import io.temporal.workflow.unsafe.WorkflowUnsafe;
 import org.slf4j.Logger;
 import picocli.CommandLine;
 
@@ -45,27 +46,39 @@ public class Runner implements Runnable {
         String getGreeting();
 
         @SignalMethod
-        void resolve(String name);
+        void resolve(int seq);
     }
 
     public static class SignalWatcherWorkflowImpl implements SignalWatcherWorkflow {
         private static final Logger logger = Workflow.getLogger(SignalWatcherWorkflow.class);
 
-        private boolean resolved;
+        private int signal;
 
         private CancellationScope watcherScope;
 
         @Override
         public String getGreeting() {
-            Async.function(this::signalWatcher, Duration.ofSeconds(3));
-            Workflow.await(() -> resolved);
+            // signal 1
+            Promise<Void> p1 = Async.procedure(this::signalWatcher, Duration.ofSeconds(3+signal));
+            Workflow.await(() -> this.signal == 1);
+            logger.info("First signal received");
             watcherScope.cancel();
+
+            // signal 2
+            Promise p2 = Async.procedure(this::signalWatcher, Duration.ofSeconds(3+signal));
+            logger.info("Waiting for second signal");
+            Workflow.await(() -> this.signal == 2);
+            watcherScope.cancel();
+            logger.info("Second signal received");
+            //logger.error(p2.getFailure().toString());
+
             return "done";
         }
 
         @Override
-        public void resolve(String name) {
-            resolved = true;
+        public void resolve(int seq) {
+            logger.info("Received signal {}", seq);
+            signal = seq;
         }
 
         private Func<Void> signalWatcher(Duration duration) {
@@ -73,11 +86,12 @@ public class Runner implements Runnable {
                 () -> {
                     Workflow.sleep(duration);
                     logger.info("Timeout detected after " + duration);
-                    Workflow.getMetricsScope().counter("timeout_detected").inc(1);
                     // Do something about the timeout
                     // Start the next timeout watcher
                 });
             watcherScope.run();
+            logger.info("signal {}", signal);
+            //logger.info("watcherScope cancelled {}", watcherScope.isCancelRequested());
             return signalWatcher(duration);
         }
     }

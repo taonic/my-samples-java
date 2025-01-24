@@ -28,13 +28,15 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics;
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
-import io.temporal.activity.ActivityInterface;
-import io.temporal.activity.ActivityMethod;
-import io.temporal.activity.ActivityOptions;
+import io.temporal.activity.*;
+import io.temporal.client.ActivityCompletionException;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
 import io.temporal.client.WorkflowOptions;
+import io.temporal.common.converter.CodecDataConverter;
+import io.temporal.common.converter.DefaultDataConverter;
 import io.temporal.common.reporter.MicrometerClientStatsReporter;
+import io.temporal.failure.ActivityFailure;
 import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
@@ -54,10 +56,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import static picocli.CommandLine.*;
 
@@ -85,12 +84,11 @@ public class Starter implements Runnable {
     @Option(names = "--activity-slots", description = "The number of Activity execution slots", defaultValue = "200")
     static int activityExecSlots;
 
-    @Option(names = "--workflows", description = "The number of concurrent Workflows", defaultValue = "50")
+    @Option(names = "--workflows", description = "The number of concurrent Workflows", defaultValue = "100")
     static int workflows;
 
-    @Option(names = "--activities-per-workflow", description = "The number of Activities per Workflow", defaultValue = "1")
+    @Option(names = "--activities-per-workflow", description = "The number of Activities per Workflow", defaultValue = "10")
     static int activitiesPerWF;
-
     @Option(names = "--temporal-namespace", description = "The Temporal namespace to connect to")
     static String temporal_namespace;
 
@@ -106,10 +104,10 @@ public class Starter implements Runnable {
     @ActivityInterface
     public interface SlowActivities {
         @ActivityMethod(name = "slowActivity")
-        byte[] slowActivity(int seconds);
+        byte[] slowActivity(double seconds);
 
         @ActivityMethod(name = "CPUIntensiveActivity")
-        void CPUIntensiveActivity();
+        byte[] CPUIntensiveActivity();
 
         @ActivityMethod(name = "largeActivity")
         byte[] largeActivity();
@@ -130,20 +128,35 @@ public class Starter implements Runnable {
         }
 
         @Override
-        public void CPUIntensiveActivity() {
+        public byte[] CPUIntensiveActivity() {
             long start = System.currentTimeMillis();
-            fibRecursion(42); // takes about 2-3s
+            fibRecursion(52); // takes about 2-3s
             log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
+            return new byte[1];
         }
 
         @Override
-        public byte[] slowActivity(int seconds) {
+        public byte[] slowActivity(double seconds) {
+            ActivityExecutionContext context = Activity.getExecutionContext();
             long start = System.currentTimeMillis();
-            try {
-                Random random = new Random();
-                Thread.sleep(seconds * 1000 + random.nextInt(100));
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            Random random = new Random();
+            long jitter = random.nextInt(100);
+            if (jitter > 95) {
+                // fail 20% of the tasks
+                throw new RuntimeException("Failing the Activity Task for 5% of the time.");
+            } else {
+                int additionalSleep = random.nextInt(2);
+                for (int i = 0; i < seconds + additionalSleep; i++) {
+                    try {
+                        context.heartbeat(i);
+                        Thread.sleep(1000);
+                    } catch(ActivityCompletionException e){
+                        log.info("Activity is cancelled");
+                        throw e;
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
             log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
             return new byte[1];
@@ -173,19 +186,46 @@ public class Starter implements Runnable {
         private final SlowActivities activities =
                 Workflow.newActivityStub(
                         SlowActivities.class,
-                        ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(30)).build());
+                        ActivityOptions.newBuilder()
+                                .setHeartbeatTimeout(Duration.ofSeconds(2))
+                                .setCancellationType(ActivityCancellationType.WAIT_CANCELLATION_COMPLETED)
+                                .setStartToCloseTimeout(Duration.ofSeconds(30))
+                                .build());
+
+        private final SlowActivities localActivities =
+                Workflow.newLocalActivityStub(
+                        SlowActivities.class,
+                        LocalActivityOptions.newBuilder()
+                                .setStartToCloseTimeout(Duration.ofSeconds(30))
+                                .build());
 
         @Override
         public void doWork(int concurrency) {
-            List<Promise<byte[]>> promises = new ArrayList<>();
-            for (int i = 0; i < concurrency; i++) {
-                promises.add(Async.function(activities::slowActivity, 1));
-                //promises.add(Async.procedure(activities::CPUIntensiveActivity));
-                //promises.add(Async.function(activities::largeActivity));
+            List<Promise<byte[]>> promisesActivities = new ArrayList<>();
+            List<Promise<byte[]>> promisesLocalActivities = new ArrayList<>();
+            Random random = new Random();
+            long failureRatio = random.nextInt(100);
+            if (failureRatio > 95) {
+                throw new RuntimeException("Failing WFT 5% of the time");
             }
-            for (Promise<byte[]> promise : promises) {
-                String base64EncodedString = Base64.getEncoder().encodeToString(promise.get());
-                log.debug(base64EncodedString);
+            CancellationScope scope =
+                    Workflow.newCancellationScope(
+                            () -> {
+                                for (int i = 0; i < concurrency; i++) {
+                                    promisesActivities.add(Async.function(activities::slowActivity, 2.0));
+                                    promisesLocalActivities.add(Async.function(localActivities::slowActivity, 1.0));
+                                }
+                            });
+            scope.run();
+            Workflow.sleep(1000);
+            scope.cancel();
+            for (Promise<byte[]> promise : promisesActivities) {
+                try {
+                    promise.get();
+                } catch (ActivityFailure af) {
+                    scope.cancel();
+                    return;
+                }
             }
         }
     }
@@ -206,6 +246,10 @@ public class Starter implements Runnable {
         WorkflowServiceStubsOptions.Builder wfServiceOptionsBuilder = WorkflowServiceStubsOptions.newBuilder()
                 .setMetricsScope(scope);
         WorkflowClientOptions.Builder wfClientBuilder = WorkflowClientOptions.newBuilder();
+        wfClientBuilder.setDataConverter(
+                        new CodecDataConverter(
+                                DefaultDataConverter.newDefaultInstance(),
+                                Collections.singletonList(new CryptCodec())));
         if (temporal_namespace != null) {
             InputStream clientCert = new FileInputStream(client_cert_path);
             InputStream clientKey = new FileInputStream(client_key_path);
@@ -243,9 +287,9 @@ public class Starter implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(System.getProperties().get("MaxDirectMemorySize"));
         task_queue = String.format("Pollers%d/Slots%d", activityPollers, activityExecSlots);
         WorkerFactoryOptions factoryOptions = WorkerFactoryOptions.newBuilder()
+                .setWorkflowCacheSize(1)
                 .build();
         WorkerOptions workerOptions = WorkerOptions.newBuilder()
                 .setMaxConcurrentActivityTaskPollers(activityPollers) // default 5
@@ -255,7 +299,9 @@ public class Starter implements Runnable {
         try {
             WorkflowClient client = runWorker(factoryOptions, workerOptions);
             Thread.sleep(graphPadding.toMillis()); // to show 10s inactivity to pad the graph
-            runConcurrentWorkflow(client, workflows, activitiesPerWF);
+            for(int i=0; i< 50;i++) {
+                runConcurrentWorkflow(client, workflows, activitiesPerWF);
+            }
             log.info("Completed");
             Thread.sleep(graphPadding.toMillis());
         } catch (Exception e) {

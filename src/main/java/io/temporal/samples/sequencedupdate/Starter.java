@@ -22,9 +22,7 @@ package io.temporal.samples.sequencedupdate;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 import io.temporal.activity.ActivityOptions;
-import io.temporal.client.WorkflowClient;
-import io.temporal.client.WorkflowOptions;
-import io.temporal.client.WorkflowStub;
+import io.temporal.client.*;
 import io.temporal.failure.ApplicationFailure;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.worker.Worker;
@@ -245,7 +243,7 @@ public class Starter {
             Thread.sleep(50); // space out the requests to make sure Updates is received in order
             CompletableFuture<String> f =
                     untypedWorkflowStub
-                            .startUpdate("addGreeting", String.class, "Again " + i)
+                            .startUpdate("addGreeting", WorkflowUpdateStage.ACCEPTED, String.class, "Again " + i)
                             .getResultAsync();
             futures[i] = f;
         }
