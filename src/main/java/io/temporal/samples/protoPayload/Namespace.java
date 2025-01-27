@@ -2,7 +2,7 @@
 // source: addressbook.proto
 
 // Protobuf Java Version: 3.25.3
-package io.temporal.samples.proto;
+package io.temporal.samples.protoPayload;
 
 /**
  * Protobuf type {@code tutorial.Namespace}
@@ -28,15 +28,15 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Namespace_descriptor;
+    return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Namespace_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Namespace_fieldAccessorTable
+    return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Namespace_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            io.temporal.samples.proto.Namespace.class, io.temporal.samples.proto.Namespace.Builder.class);
+            io.temporal.samples.protoPayload.Namespace.class, io.temporal.samples.protoPayload.Namespace.Builder.class);
   }
 
   private int valueCase_ = 0;
@@ -230,10 +230,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof io.temporal.samples.proto.Namespace)) {
+    if (!(obj instanceof io.temporal.samples.protoPayload.Namespace)) {
       return super.equals(obj);
     }
-    io.temporal.samples.proto.Namespace other = (io.temporal.samples.proto.Namespace) obj;
+    io.temporal.samples.protoPayload.Namespace other = (io.temporal.samples.protoPayload.Namespace) obj;
 
     if (!getValueCase().equals(other.getValueCase())) return false;
     switch (valueCase_) {
@@ -276,44 +276,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(byte[] data)
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(java.io.InputStream input)
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -321,26 +321,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static io.temporal.samples.proto.Namespace parseDelimitedFrom(java.io.InputStream input)
+  public static io.temporal.samples.protoPayload.Namespace parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static io.temporal.samples.proto.Namespace parseDelimitedFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static io.temporal.samples.proto.Namespace parseFrom(
+  public static io.temporal.samples.protoPayload.Namespace parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -353,7 +353,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(io.temporal.samples.proto.Namespace prototype) {
+  public static Builder newBuilder(io.temporal.samples.protoPayload.Namespace prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -374,18 +374,18 @@ private static final long serialVersionUID = 0L;
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tutorial.Namespace)
-      io.temporal.samples.proto.NamespaceOrBuilder {
+      io.temporal.samples.protoPayload.NamespaceOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Namespace_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Namespace_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Namespace_fieldAccessorTable
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Namespace_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              io.temporal.samples.proto.Namespace.class, io.temporal.samples.proto.Namespace.Builder.class);
+              io.temporal.samples.protoPayload.Namespace.class, io.temporal.samples.protoPayload.Namespace.Builder.class);
     }
 
     // Construct using io.temporal.samples.proto.Namespace.newBuilder()
@@ -410,17 +410,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Namespace_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Namespace_descriptor;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Namespace getDefaultInstanceForType() {
-      return io.temporal.samples.proto.Namespace.getDefaultInstance();
+    public io.temporal.samples.protoPayload.Namespace getDefaultInstanceForType() {
+      return io.temporal.samples.protoPayload.Namespace.getDefaultInstance();
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Namespace build() {
-      io.temporal.samples.proto.Namespace result = buildPartial();
+    public io.temporal.samples.protoPayload.Namespace build() {
+      io.temporal.samples.protoPayload.Namespace result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -428,19 +428,19 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Namespace buildPartial() {
-      io.temporal.samples.proto.Namespace result = new io.temporal.samples.proto.Namespace(this);
+    public io.temporal.samples.protoPayload.Namespace buildPartial() {
+      io.temporal.samples.protoPayload.Namespace result = new io.temporal.samples.protoPayload.Namespace(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       buildPartialOneofs(result);
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(io.temporal.samples.proto.Namespace result) {
+    private void buildPartial0(io.temporal.samples.protoPayload.Namespace result) {
       int from_bitField0_ = bitField0_;
     }
 
-    private void buildPartialOneofs(io.temporal.samples.proto.Namespace result) {
+    private void buildPartialOneofs(io.temporal.samples.protoPayload.Namespace result) {
       result.valueCase_ = valueCase_;
       result.value_ = this.value_;
     }
@@ -479,16 +479,16 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof io.temporal.samples.proto.Namespace) {
-        return mergeFrom((io.temporal.samples.proto.Namespace)other);
+      if (other instanceof io.temporal.samples.protoPayload.Namespace) {
+        return mergeFrom((io.temporal.samples.protoPayload.Namespace)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(io.temporal.samples.proto.Namespace other) {
-      if (other == io.temporal.samples.proto.Namespace.getDefaultInstance()) return this;
+    public Builder mergeFrom(io.temporal.samples.protoPayload.Namespace other) {
+      if (other == io.temporal.samples.protoPayload.Namespace.getDefaultInstance()) return this;
       switch (other.getValueCase()) {
         case JAMID: {
           valueCase_ = 1;
@@ -780,12 +780,12 @@ private static final long serialVersionUID = 0L;
   }
 
   // @@protoc_insertion_point(class_scope:tutorial.Namespace)
-  private static final io.temporal.samples.proto.Namespace DEFAULT_INSTANCE;
+  private static final io.temporal.samples.protoPayload.Namespace DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new io.temporal.samples.proto.Namespace();
+    DEFAULT_INSTANCE = new io.temporal.samples.protoPayload.Namespace();
   }
 
-  public static io.temporal.samples.proto.Namespace getDefaultInstance() {
+  public static io.temporal.samples.protoPayload.Namespace getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
@@ -821,7 +821,7 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
-  public io.temporal.samples.proto.Namespace getDefaultInstanceForType() {
+  public io.temporal.samples.protoPayload.Namespace getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

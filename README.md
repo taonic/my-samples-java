@@ -1,4 +1,58 @@
 # My Temporal Java SDK Samples
 
-- [**Sequenced update**](/src/main/java/io/temporal/samples/sequencedupdate): Show case how to use Workflow Queue to sequence Workflow Updates. The similar pattern can be used to handle Signals in order.
-- [**Worker tuning**](/src/main/java/io/temporal/samples/workertuning): This example demonstrates a number of worker tuning techniques based a range of resource contention scenarios
+A collection of samples demonstrating various features and patterns using the Temporal Java SDK.
+
+## Samples
+
+### [Activity Queue Segregation](/src/main/java/io/temporal/samples/activityQueueSegregation)
+Demonstrates how to execute activities on separate task queues by configuring different workers for different activity types.
+
+### [Context Aware Codec](/src/main/java/io/temporal/samples/contextAwareCodec)
+Shows how to implement context-aware payload encryption where encryption keys are determined dynamically based on activity type.
+
+### [Context Propagation](/src/main/java/io/temporal/samples/context/propagation)
+Illustrates how to propagate context (like MDC) through workflow execution across multiple activities.
+
+### [Grouped Activities](/src/main/java/io/temporal/samples/groupedActivities)
+Demonstrates patterns for organizing and executing related activities in groups, both sequentially and in parallel.
+
+### [Interface Inheritance](/src/main/java/io/temporal/samples/interface_inheritance)
+Shows how to use interface inheritance with Temporal workflows to share common workflow methods.
+
+### [Protocol Buffers](/src/main/java/io/temporal/samples/proto)
+Demonstrates using Protocol Buffers (protobuf) with Temporal for efficient data serialization.
+
+### [Retry NDE (Non-Deterministic Errors)](/src/main/java/io/temporal/samples/retrynde)
+Shows how to handle and retry workflows that encounter non-deterministic errors during execution.
+
+### [Sequenced Update](/src/main/java/io/temporal/samples/sequencedupdate)
+Demonstrates using workflow queue to sequence workflow updates, useful for handling signals in order.
+
+### [Signal Watcher](/src/main/java/io/temporal/samples/signalWatcher)
+Implements a pattern for monitoring workflow signals with timeout detection and metrics tracking.
+
+### [Timeout Handler](/src/main/java/io/temporal/samples/timeoutHandler)
+Shows how to implement custom timeout handling for long-running activities within workflows.
+
+### [Worker Tuning](/src/main/java/io/temporal/samples/workertuning)
+Provides examples of worker tuning techniques for different resource contention scenarios, with Prometheus metrics integration.
+
+## Building and Running
+
+Each sample can be run using Gradle:
+
+```bash
+./gradlew -q execute -PmainClass=io.temporal.samples.<package>.Starter
+```
+
+Replace `<package>` with the sample package name you want to run.
+
+## Prerequisites
+
+- Java 8 or later
+- Temporal server running locally or a Temporal Cloud account
+- Gradle
+
+For samples using metrics (like Worker Tuning):
+- Prometheus
+- Grafana

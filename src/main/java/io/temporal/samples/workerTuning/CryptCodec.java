@@ -1,4 +1,4 @@
-package io.temporal.samples.workertuning;
+package io.temporal.samples.workerTuning;
 
 import com.google.protobuf.ByteString;
 import io.temporal.api.common.v1.Payload;

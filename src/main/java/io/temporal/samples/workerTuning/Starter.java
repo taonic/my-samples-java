@@ -17,9 +17,8 @@
  *  permissions and limitations under the License.
  */
 
-package io.temporal.samples.workertuning;
+package io.temporal.samples.workerTuning;
 
-import com.google.gson.internal.UnsafeAllocator;
 import com.sun.net.httpserver.HttpServer;
 import com.uber.m3.tally.RootScopeBuilder;
 import com.uber.m3.tally.Scope;
@@ -45,7 +44,6 @@ import io.temporal.worker.WorkerFactory;
 import io.temporal.worker.WorkerFactoryOptions;
 import io.temporal.worker.WorkerOptions;
 import io.temporal.workflow.*;
-import io.temporal.workflow.unsafe.WorkflowUnsafe;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

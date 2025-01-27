@@ -33,7 +33,7 @@ First we will run the example with:
 - 200 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter \
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
   -PactivityPollers=5 -PactivityExecSlots=200
 ```
 
@@ -52,7 +52,7 @@ Next we will increase the Activity Execution Slots to 800:
 - 800 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter \
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
   -PactivityPollers=5 -PactivityExecSlots=800
 ```
 
@@ -70,7 +70,7 @@ Let's increase the Activity Pollers to 80:
 - 800 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter \
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
   -PactivityPollers=80 -PactivityExecSlots=800
 ```
 
@@ -88,7 +88,7 @@ Finally, we will increase the Activity Execution Slots to 1600:
 - 1600 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workertuning.Starter \
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
   -PactivityPollers=80 -PactivityExecSlots=1600
 ```
 

@@ -2,7 +2,7 @@
 // source: addressbook.proto
 
 // Protobuf Java Version: 3.25.3
-package io.temporal.samples.proto;
+package io.temporal.samples.protoPayload;
 
 public interface PersonOrBuilder extends
     // @@protoc_insertion_point(interface_extends:tutorial.Person)
@@ -56,12 +56,12 @@ public interface PersonOrBuilder extends
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
-  java.util.List<io.temporal.samples.proto.Person.PhoneNumber> 
+  java.util.List<io.temporal.samples.protoPayload.Person.PhoneNumber>
       getPhonesList();
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
-  io.temporal.samples.proto.Person.PhoneNumber getPhones(int index);
+  io.temporal.samples.protoPayload.Person.PhoneNumber getPhones(int index);
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
@@ -69,11 +69,11 @@ public interface PersonOrBuilder extends
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
-  java.util.List<? extends io.temporal.samples.proto.Person.PhoneNumberOrBuilder> 
+  java.util.List<? extends io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder>
       getPhonesOrBuilderList();
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
-  io.temporal.samples.proto.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
+  io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
       int index);
 }

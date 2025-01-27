@@ -22,7 +22,7 @@ package io.temporal.samples.timeoutHandler;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
-import io.temporal.samples.workertuning.Starter;
+import io.temporal.samples.workerTuning.Starter;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.worker.*;
 import io.temporal.workflow.*;

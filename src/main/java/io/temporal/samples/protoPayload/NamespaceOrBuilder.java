@@ -2,7 +2,7 @@
 // source: addressbook.proto
 
 // Protobuf Java Version: 3.25.3
-package io.temporal.samples.proto;
+package io.temporal.samples.protoPayload;
 
 public interface NamespaceOrBuilder extends
     // @@protoc_insertion_point(interface_extends:tutorial.Namespace)
@@ -42,5 +42,5 @@ public interface NamespaceOrBuilder extends
   com.google.protobuf.ByteString
       getGcpServiceAccountBytes();
 
-  io.temporal.samples.proto.Namespace.ValueCase getValueCase();
+  io.temporal.samples.protoPayload.Namespace.ValueCase getValueCase();
 }

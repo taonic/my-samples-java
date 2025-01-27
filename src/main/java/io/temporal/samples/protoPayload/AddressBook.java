@@ -2,7 +2,7 @@
 // source: addressbook.proto
 
 // Protobuf Java Version: 3.25.3
-package io.temporal.samples.proto;
+package io.temporal.samples.protoPayload;
 
 /**
  * Protobuf type {@code tutorial.AddressBook}
@@ -29,32 +29,32 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_AddressBook_descriptor;
+    return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_AddressBook_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_AddressBook_fieldAccessorTable
+    return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_AddressBook_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            io.temporal.samples.proto.AddressBook.class, io.temporal.samples.proto.AddressBook.Builder.class);
+            io.temporal.samples.protoPayload.AddressBook.class, io.temporal.samples.protoPayload.AddressBook.Builder.class);
   }
 
   public static final int PEOPLE_FIELD_NUMBER = 1;
   @SuppressWarnings("serial")
-  private java.util.List<io.temporal.samples.proto.Person> people_;
+  private java.util.List<io.temporal.samples.protoPayload.Person> people_;
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
   @java.lang.Override
-  public java.util.List<io.temporal.samples.proto.Person> getPeopleList() {
+  public java.util.List<io.temporal.samples.protoPayload.Person> getPeopleList() {
     return people_;
   }
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
   @java.lang.Override
-  public java.util.List<? extends io.temporal.samples.proto.PersonOrBuilder> 
+  public java.util.List<? extends io.temporal.samples.protoPayload.PersonOrBuilder>
       getPeopleOrBuilderList() {
     return people_;
   }
@@ -69,14 +69,14 @@ private static final long serialVersionUID = 0L;
    * <code>repeated .tutorial.Person people = 1;</code>
    */
   @java.lang.Override
-  public io.temporal.samples.proto.Person getPeople(int index) {
+  public io.temporal.samples.protoPayload.Person getPeople(int index) {
     return people_.get(index);
   }
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
   @java.lang.Override
-  public io.temporal.samples.proto.PersonOrBuilder getPeopleOrBuilder(
+  public io.temporal.samples.protoPayload.PersonOrBuilder getPeopleOrBuilder(
       int index) {
     return people_.get(index);
   }
@@ -121,10 +121,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof io.temporal.samples.proto.AddressBook)) {
+    if (!(obj instanceof io.temporal.samples.protoPayload.AddressBook)) {
       return super.equals(obj);
     }
-    io.temporal.samples.proto.AddressBook other = (io.temporal.samples.proto.AddressBook) obj;
+    io.temporal.samples.protoPayload.AddressBook other = (io.temporal.samples.protoPayload.AddressBook) obj;
 
     if (!getPeopleList()
         .equals(other.getPeopleList())) return false;
@@ -148,44 +148,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(byte[] data)
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(java.io.InputStream input)
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -193,26 +193,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static io.temporal.samples.proto.AddressBook parseDelimitedFrom(java.io.InputStream input)
+  public static io.temporal.samples.protoPayload.AddressBook parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static io.temporal.samples.proto.AddressBook parseDelimitedFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static io.temporal.samples.proto.AddressBook parseFrom(
+  public static io.temporal.samples.protoPayload.AddressBook parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -225,7 +225,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(io.temporal.samples.proto.AddressBook prototype) {
+  public static Builder newBuilder(io.temporal.samples.protoPayload.AddressBook prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -246,18 +246,18 @@ private static final long serialVersionUID = 0L;
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tutorial.AddressBook)
-      io.temporal.samples.proto.AddressBookOrBuilder {
+      io.temporal.samples.protoPayload.AddressBookOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_AddressBook_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_AddressBook_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_AddressBook_fieldAccessorTable
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_AddressBook_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              io.temporal.samples.proto.AddressBook.class, io.temporal.samples.proto.AddressBook.Builder.class);
+              io.temporal.samples.protoPayload.AddressBook.class, io.temporal.samples.protoPayload.AddressBook.Builder.class);
     }
 
     // Construct using io.temporal.samples.proto.AddressBook.newBuilder()
@@ -287,17 +287,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_AddressBook_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_AddressBook_descriptor;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.AddressBook getDefaultInstanceForType() {
-      return io.temporal.samples.proto.AddressBook.getDefaultInstance();
+    public io.temporal.samples.protoPayload.AddressBook getDefaultInstanceForType() {
+      return io.temporal.samples.protoPayload.AddressBook.getDefaultInstance();
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.AddressBook build() {
-      io.temporal.samples.proto.AddressBook result = buildPartial();
+    public io.temporal.samples.protoPayload.AddressBook build() {
+      io.temporal.samples.protoPayload.AddressBook result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -305,15 +305,15 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.AddressBook buildPartial() {
-      io.temporal.samples.proto.AddressBook result = new io.temporal.samples.proto.AddressBook(this);
+    public io.temporal.samples.protoPayload.AddressBook buildPartial() {
+      io.temporal.samples.protoPayload.AddressBook result = new io.temporal.samples.protoPayload.AddressBook(this);
       buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartialRepeatedFields(io.temporal.samples.proto.AddressBook result) {
+    private void buildPartialRepeatedFields(io.temporal.samples.protoPayload.AddressBook result) {
       if (peopleBuilder_ == null) {
         if (((bitField0_ & 0x00000001) != 0)) {
           people_ = java.util.Collections.unmodifiableList(people_);
@@ -325,7 +325,7 @@ private static final long serialVersionUID = 0L;
       }
     }
 
-    private void buildPartial0(io.temporal.samples.proto.AddressBook result) {
+    private void buildPartial0(io.temporal.samples.protoPayload.AddressBook result) {
       int from_bitField0_ = bitField0_;
     }
 
@@ -363,16 +363,16 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof io.temporal.samples.proto.AddressBook) {
-        return mergeFrom((io.temporal.samples.proto.AddressBook)other);
+      if (other instanceof io.temporal.samples.protoPayload.AddressBook) {
+        return mergeFrom((io.temporal.samples.protoPayload.AddressBook)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(io.temporal.samples.proto.AddressBook other) {
-      if (other == io.temporal.samples.proto.AddressBook.getDefaultInstance()) return this;
+    public Builder mergeFrom(io.temporal.samples.protoPayload.AddressBook other) {
+      if (other == io.temporal.samples.protoPayload.AddressBook.getDefaultInstance()) return this;
       if (peopleBuilder_ == null) {
         if (!other.people_.isEmpty()) {
           if (people_.isEmpty()) {
@@ -426,9 +426,9 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 10: {
-              io.temporal.samples.proto.Person m =
+              io.temporal.samples.protoPayload.Person m =
                   input.readMessage(
-                      io.temporal.samples.proto.Person.PARSER,
+                      io.temporal.samples.protoPayload.Person.PARSER,
                       extensionRegistry);
               if (peopleBuilder_ == null) {
                 ensurePeopleIsMutable();
@@ -455,22 +455,22 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private java.util.List<io.temporal.samples.proto.Person> people_ =
+    private java.util.List<io.temporal.samples.protoPayload.Person> people_ =
       java.util.Collections.emptyList();
     private void ensurePeopleIsMutable() {
       if (!((bitField0_ & 0x00000001) != 0)) {
-        people_ = new java.util.ArrayList<io.temporal.samples.proto.Person>(people_);
+        people_ = new java.util.ArrayList<io.temporal.samples.protoPayload.Person>(people_);
         bitField0_ |= 0x00000001;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        io.temporal.samples.proto.Person, io.temporal.samples.proto.Person.Builder, io.temporal.samples.proto.PersonOrBuilder> peopleBuilder_;
+        io.temporal.samples.protoPayload.Person, io.temporal.samples.protoPayload.Person.Builder, io.temporal.samples.protoPayload.PersonOrBuilder> peopleBuilder_;
 
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public java.util.List<io.temporal.samples.proto.Person> getPeopleList() {
+    public java.util.List<io.temporal.samples.protoPayload.Person> getPeopleList() {
       if (peopleBuilder_ == null) {
         return java.util.Collections.unmodifiableList(people_);
       } else {
@@ -490,7 +490,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public io.temporal.samples.proto.Person getPeople(int index) {
+    public io.temporal.samples.protoPayload.Person getPeople(int index) {
       if (peopleBuilder_ == null) {
         return people_.get(index);
       } else {
@@ -501,7 +501,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person people = 1;</code>
      */
     public Builder setPeople(
-        int index, io.temporal.samples.proto.Person value) {
+        int index, io.temporal.samples.protoPayload.Person value) {
       if (peopleBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -518,7 +518,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person people = 1;</code>
      */
     public Builder setPeople(
-        int index, io.temporal.samples.proto.Person.Builder builderForValue) {
+        int index, io.temporal.samples.protoPayload.Person.Builder builderForValue) {
       if (peopleBuilder_ == null) {
         ensurePeopleIsMutable();
         people_.set(index, builderForValue.build());
@@ -531,7 +531,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public Builder addPeople(io.temporal.samples.proto.Person value) {
+    public Builder addPeople(io.temporal.samples.protoPayload.Person value) {
       if (peopleBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -548,7 +548,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person people = 1;</code>
      */
     public Builder addPeople(
-        int index, io.temporal.samples.proto.Person value) {
+        int index, io.temporal.samples.protoPayload.Person value) {
       if (peopleBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -565,7 +565,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person people = 1;</code>
      */
     public Builder addPeople(
-        io.temporal.samples.proto.Person.Builder builderForValue) {
+        io.temporal.samples.protoPayload.Person.Builder builderForValue) {
       if (peopleBuilder_ == null) {
         ensurePeopleIsMutable();
         people_.add(builderForValue.build());
@@ -579,7 +579,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person people = 1;</code>
      */
     public Builder addPeople(
-        int index, io.temporal.samples.proto.Person.Builder builderForValue) {
+        int index, io.temporal.samples.protoPayload.Person.Builder builderForValue) {
       if (peopleBuilder_ == null) {
         ensurePeopleIsMutable();
         people_.add(index, builderForValue.build());
@@ -593,7 +593,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person people = 1;</code>
      */
     public Builder addAllPeople(
-        java.lang.Iterable<? extends io.temporal.samples.proto.Person> values) {
+        java.lang.Iterable<? extends io.temporal.samples.protoPayload.Person> values) {
       if (peopleBuilder_ == null) {
         ensurePeopleIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -633,14 +633,14 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public io.temporal.samples.proto.Person.Builder getPeopleBuilder(
+    public io.temporal.samples.protoPayload.Person.Builder getPeopleBuilder(
         int index) {
       return getPeopleFieldBuilder().getBuilder(index);
     }
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public io.temporal.samples.proto.PersonOrBuilder getPeopleOrBuilder(
+    public io.temporal.samples.protoPayload.PersonOrBuilder getPeopleOrBuilder(
         int index) {
       if (peopleBuilder_ == null) {
         return people_.get(index);  } else {
@@ -650,7 +650,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public java.util.List<? extends io.temporal.samples.proto.PersonOrBuilder> 
+    public java.util.List<? extends io.temporal.samples.protoPayload.PersonOrBuilder>
          getPeopleOrBuilderList() {
       if (peopleBuilder_ != null) {
         return peopleBuilder_.getMessageOrBuilderList();
@@ -661,31 +661,31 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public io.temporal.samples.proto.Person.Builder addPeopleBuilder() {
+    public io.temporal.samples.protoPayload.Person.Builder addPeopleBuilder() {
       return getPeopleFieldBuilder().addBuilder(
-          io.temporal.samples.proto.Person.getDefaultInstance());
+          io.temporal.samples.protoPayload.Person.getDefaultInstance());
     }
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public io.temporal.samples.proto.Person.Builder addPeopleBuilder(
+    public io.temporal.samples.protoPayload.Person.Builder addPeopleBuilder(
         int index) {
       return getPeopleFieldBuilder().addBuilder(
-          index, io.temporal.samples.proto.Person.getDefaultInstance());
+          index, io.temporal.samples.protoPayload.Person.getDefaultInstance());
     }
     /**
      * <code>repeated .tutorial.Person people = 1;</code>
      */
-    public java.util.List<io.temporal.samples.proto.Person.Builder> 
+    public java.util.List<io.temporal.samples.protoPayload.Person.Builder>
          getPeopleBuilderList() {
       return getPeopleFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        io.temporal.samples.proto.Person, io.temporal.samples.proto.Person.Builder, io.temporal.samples.proto.PersonOrBuilder> 
+        io.temporal.samples.protoPayload.Person, io.temporal.samples.protoPayload.Person.Builder, io.temporal.samples.protoPayload.PersonOrBuilder>
         getPeopleFieldBuilder() {
       if (peopleBuilder_ == null) {
         peopleBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            io.temporal.samples.proto.Person, io.temporal.samples.proto.Person.Builder, io.temporal.samples.proto.PersonOrBuilder>(
+            io.temporal.samples.protoPayload.Person, io.temporal.samples.protoPayload.Person.Builder, io.temporal.samples.protoPayload.PersonOrBuilder>(
                 people_,
                 ((bitField0_ & 0x00000001) != 0),
                 getParentForChildren(),
@@ -711,12 +711,12 @@ private static final long serialVersionUID = 0L;
   }
 
   // @@protoc_insertion_point(class_scope:tutorial.AddressBook)
-  private static final io.temporal.samples.proto.AddressBook DEFAULT_INSTANCE;
+  private static final io.temporal.samples.protoPayload.AddressBook DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new io.temporal.samples.proto.AddressBook();
+    DEFAULT_INSTANCE = new io.temporal.samples.protoPayload.AddressBook();
   }
 
-  public static io.temporal.samples.proto.AddressBook getDefaultInstance() {
+  public static io.temporal.samples.protoPayload.AddressBook getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
@@ -752,7 +752,7 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
-  public io.temporal.samples.proto.AddressBook getDefaultInstanceForType() {
+  public io.temporal.samples.protoPayload.AddressBook getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

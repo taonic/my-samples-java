@@ -2,7 +2,7 @@
 // source: addressbook.proto
 
 // Protobuf Java Version: 3.25.3
-package io.temporal.samples.proto;
+package io.temporal.samples.protoPayload;
 
 /**
  * Protobuf type {@code tutorial.Person}
@@ -31,15 +31,15 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_descriptor;
+    return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_fieldAccessorTable
+    return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            io.temporal.samples.proto.Person.class, io.temporal.samples.proto.Person.Builder.class);
+            io.temporal.samples.protoPayload.Person.class, io.temporal.samples.protoPayload.Person.Builder.class);
   }
 
   /**
@@ -133,7 +133,7 @@ private static final long serialVersionUID = 0L;
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return io.temporal.samples.proto.Person.getDescriptor().getEnumTypes().get(0);
+      return io.temporal.samples.protoPayload.Person.getDescriptor().getEnumTypes().get(0);
     }
 
     private static final PhoneType[] VALUES = values();
@@ -186,7 +186,7 @@ private static final long serialVersionUID = 0L;
      * <code>optional .tutorial.Person.PhoneType type = 2 [default = PHONE_TYPE_HOME];</code>
      * @return The type.
      */
-    io.temporal.samples.proto.Person.PhoneType getType();
+    io.temporal.samples.protoPayload.Person.PhoneType getType();
   }
   /**
    * Protobuf type {@code tutorial.Person.PhoneNumber}
@@ -214,15 +214,15 @@ private static final long serialVersionUID = 0L;
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              io.temporal.samples.proto.Person.PhoneNumber.class, io.temporal.samples.proto.Person.PhoneNumber.Builder.class);
+              io.temporal.samples.protoPayload.Person.PhoneNumber.class, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder.class);
     }
 
     private int bitField0_;
@@ -288,9 +288,9 @@ private static final long serialVersionUID = 0L;
      * <code>optional .tutorial.Person.PhoneType type = 2 [default = PHONE_TYPE_HOME];</code>
      * @return The type.
      */
-    @java.lang.Override public io.temporal.samples.proto.Person.PhoneType getType() {
-      io.temporal.samples.proto.Person.PhoneType result = io.temporal.samples.proto.Person.PhoneType.forNumber(type_);
-      return result == null ? io.temporal.samples.proto.Person.PhoneType.PHONE_TYPE_HOME : result;
+    @java.lang.Override public io.temporal.samples.protoPayload.Person.PhoneType getType() {
+      io.temporal.samples.protoPayload.Person.PhoneType result = io.temporal.samples.protoPayload.Person.PhoneType.forNumber(type_);
+      return result == null ? io.temporal.samples.protoPayload.Person.PhoneType.PHONE_TYPE_HOME : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -339,10 +339,10 @@ private static final long serialVersionUID = 0L;
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof io.temporal.samples.proto.Person.PhoneNumber)) {
+      if (!(obj instanceof io.temporal.samples.protoPayload.Person.PhoneNumber)) {
         return super.equals(obj);
       }
-      io.temporal.samples.proto.Person.PhoneNumber other = (io.temporal.samples.proto.Person.PhoneNumber) obj;
+      io.temporal.samples.protoPayload.Person.PhoneNumber other = (io.temporal.samples.protoPayload.Person.PhoneNumber) obj;
 
       if (hasNumber() != other.hasNumber()) return false;
       if (hasNumber()) {
@@ -377,44 +377,44 @@ private static final long serialVersionUID = 0L;
       return hash;
     }
 
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(byte[] data)
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(java.io.InputStream input)
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -422,26 +422,26 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static io.temporal.samples.proto.Person.PhoneNumber parseDelimitedFrom(java.io.InputStream input)
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static io.temporal.samples.proto.Person.PhoneNumber parseDelimitedFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static io.temporal.samples.proto.Person.PhoneNumber parseFrom(
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -454,7 +454,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(io.temporal.samples.proto.Person.PhoneNumber prototype) {
+    public static Builder newBuilder(io.temporal.samples.protoPayload.Person.PhoneNumber prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -475,18 +475,18 @@ private static final long serialVersionUID = 0L;
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:tutorial.Person.PhoneNumber)
-        io.temporal.samples.proto.Person.PhoneNumberOrBuilder {
+        io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
+        return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable
+        return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                io.temporal.samples.proto.Person.PhoneNumber.class, io.temporal.samples.proto.Person.PhoneNumber.Builder.class);
+                io.temporal.samples.protoPayload.Person.PhoneNumber.class, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder.class);
       }
 
       // Construct using io.temporal.samples.proto.Person.PhoneNumber.newBuilder()
@@ -511,17 +511,17 @@ private static final long serialVersionUID = 0L;
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
+        return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
       }
 
       @java.lang.Override
-      public io.temporal.samples.proto.Person.PhoneNumber getDefaultInstanceForType() {
-        return io.temporal.samples.proto.Person.PhoneNumber.getDefaultInstance();
+      public io.temporal.samples.protoPayload.Person.PhoneNumber getDefaultInstanceForType() {
+        return io.temporal.samples.protoPayload.Person.PhoneNumber.getDefaultInstance();
       }
 
       @java.lang.Override
-      public io.temporal.samples.proto.Person.PhoneNumber build() {
-        io.temporal.samples.proto.Person.PhoneNumber result = buildPartial();
+      public io.temporal.samples.protoPayload.Person.PhoneNumber build() {
+        io.temporal.samples.protoPayload.Person.PhoneNumber result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -529,14 +529,14 @@ private static final long serialVersionUID = 0L;
       }
 
       @java.lang.Override
-      public io.temporal.samples.proto.Person.PhoneNumber buildPartial() {
-        io.temporal.samples.proto.Person.PhoneNumber result = new io.temporal.samples.proto.Person.PhoneNumber(this);
+      public io.temporal.samples.protoPayload.Person.PhoneNumber buildPartial() {
+        io.temporal.samples.protoPayload.Person.PhoneNumber result = new io.temporal.samples.protoPayload.Person.PhoneNumber(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(io.temporal.samples.proto.Person.PhoneNumber result) {
+      private void buildPartial0(io.temporal.samples.protoPayload.Person.PhoneNumber result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -584,16 +584,16 @@ private static final long serialVersionUID = 0L;
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof io.temporal.samples.proto.Person.PhoneNumber) {
-          return mergeFrom((io.temporal.samples.proto.Person.PhoneNumber)other);
+        if (other instanceof io.temporal.samples.protoPayload.Person.PhoneNumber) {
+          return mergeFrom((io.temporal.samples.protoPayload.Person.PhoneNumber)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(io.temporal.samples.proto.Person.PhoneNumber other) {
-        if (other == io.temporal.samples.proto.Person.PhoneNumber.getDefaultInstance()) return this;
+      public Builder mergeFrom(io.temporal.samples.protoPayload.Person.PhoneNumber other) {
+        if (other == io.temporal.samples.protoPayload.Person.PhoneNumber.getDefaultInstance()) return this;
         if (other.hasNumber()) {
           number_ = other.number_;
           bitField0_ |= 0x00000001;
@@ -635,8 +635,8 @@ private static final long serialVersionUID = 0L;
               } // case 10
               case 16: {
                 int tmpRaw = input.readEnum();
-                io.temporal.samples.proto.Person.PhoneType tmpValue =
-                    io.temporal.samples.proto.Person.PhoneType.forNumber(tmpRaw);
+                io.temporal.samples.protoPayload.Person.PhoneType tmpValue =
+                    io.temporal.samples.protoPayload.Person.PhoneType.forNumber(tmpRaw);
                 if (tmpValue == null) {
                   mergeUnknownVarintField(2, tmpRaw);
                 } else {
@@ -755,16 +755,16 @@ private static final long serialVersionUID = 0L;
        * @return The type.
        */
       @java.lang.Override
-      public io.temporal.samples.proto.Person.PhoneType getType() {
-        io.temporal.samples.proto.Person.PhoneType result = io.temporal.samples.proto.Person.PhoneType.forNumber(type_);
-        return result == null ? io.temporal.samples.proto.Person.PhoneType.PHONE_TYPE_HOME : result;
+      public io.temporal.samples.protoPayload.Person.PhoneType getType() {
+        io.temporal.samples.protoPayload.Person.PhoneType result = io.temporal.samples.protoPayload.Person.PhoneType.forNumber(type_);
+        return result == null ? io.temporal.samples.protoPayload.Person.PhoneType.PHONE_TYPE_HOME : result;
       }
       /**
        * <code>optional .tutorial.Person.PhoneType type = 2 [default = PHONE_TYPE_HOME];</code>
        * @param value The type to set.
        * @return This builder for chaining.
        */
-      public Builder setType(io.temporal.samples.proto.Person.PhoneType value) {
+      public Builder setType(io.temporal.samples.protoPayload.Person.PhoneType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -800,12 +800,12 @@ private static final long serialVersionUID = 0L;
     }
 
     // @@protoc_insertion_point(class_scope:tutorial.Person.PhoneNumber)
-    private static final io.temporal.samples.proto.Person.PhoneNumber DEFAULT_INSTANCE;
+    private static final io.temporal.samples.protoPayload.Person.PhoneNumber DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new io.temporal.samples.proto.Person.PhoneNumber();
+      DEFAULT_INSTANCE = new io.temporal.samples.protoPayload.Person.PhoneNumber();
     }
 
-    public static io.temporal.samples.proto.Person.PhoneNumber getDefaultInstance() {
+    public static io.temporal.samples.protoPayload.Person.PhoneNumber getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -841,7 +841,7 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Person.PhoneNumber getDefaultInstanceForType() {
+    public io.temporal.samples.protoPayload.Person.PhoneNumber getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -967,19 +967,19 @@ private static final long serialVersionUID = 0L;
 
   public static final int PHONES_FIELD_NUMBER = 4;
   @SuppressWarnings("serial")
-  private java.util.List<io.temporal.samples.proto.Person.PhoneNumber> phones_;
+  private java.util.List<io.temporal.samples.protoPayload.Person.PhoneNumber> phones_;
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
   @java.lang.Override
-  public java.util.List<io.temporal.samples.proto.Person.PhoneNumber> getPhonesList() {
+  public java.util.List<io.temporal.samples.protoPayload.Person.PhoneNumber> getPhonesList() {
     return phones_;
   }
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
   @java.lang.Override
-  public java.util.List<? extends io.temporal.samples.proto.Person.PhoneNumberOrBuilder> 
+  public java.util.List<? extends io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder>
       getPhonesOrBuilderList() {
     return phones_;
   }
@@ -994,14 +994,14 @@ private static final long serialVersionUID = 0L;
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
   @java.lang.Override
-  public io.temporal.samples.proto.Person.PhoneNumber getPhones(int index) {
+  public io.temporal.samples.protoPayload.Person.PhoneNumber getPhones(int index) {
     return phones_.get(index);
   }
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
    */
   @java.lang.Override
-  public io.temporal.samples.proto.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
+  public io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
       int index) {
     return phones_.get(index);
   }
@@ -1065,10 +1065,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof io.temporal.samples.proto.Person)) {
+    if (!(obj instanceof io.temporal.samples.protoPayload.Person)) {
       return super.equals(obj);
     }
-    io.temporal.samples.proto.Person other = (io.temporal.samples.proto.Person) obj;
+    io.temporal.samples.protoPayload.Person other = (io.temporal.samples.protoPayload.Person) obj;
 
     if (hasName() != other.hasName()) return false;
     if (hasName()) {
@@ -1119,44 +1119,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Person parseFrom(byte[] data)
+  public static io.temporal.samples.protoPayload.Person parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Person parseFrom(java.io.InputStream input)
+  public static io.temporal.samples.protoPayload.Person parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -1164,26 +1164,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static io.temporal.samples.proto.Person parseDelimitedFrom(java.io.InputStream input)
+  public static io.temporal.samples.protoPayload.Person parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static io.temporal.samples.proto.Person parseDelimitedFrom(
+  public static io.temporal.samples.protoPayload.Person parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static io.temporal.samples.proto.Person parseFrom(
+  public static io.temporal.samples.protoPayload.Person parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -1196,7 +1196,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(io.temporal.samples.proto.Person prototype) {
+  public static Builder newBuilder(io.temporal.samples.protoPayload.Person prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -1217,18 +1217,18 @@ private static final long serialVersionUID = 0L;
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tutorial.Person)
-      io.temporal.samples.proto.PersonOrBuilder {
+      io.temporal.samples.protoPayload.PersonOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_fieldAccessorTable
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              io.temporal.samples.proto.Person.class, io.temporal.samples.proto.Person.Builder.class);
+              io.temporal.samples.protoPayload.Person.class, io.temporal.samples.protoPayload.Person.Builder.class);
     }
 
     // Construct using io.temporal.samples.proto.Person.newBuilder()
@@ -1261,17 +1261,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return io.temporal.samples.proto.AddressBookProtos.internal_static_tutorial_Person_descriptor;
+      return io.temporal.samples.protoPayload.AddressBookProtos.internal_static_tutorial_Person_descriptor;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Person getDefaultInstanceForType() {
-      return io.temporal.samples.proto.Person.getDefaultInstance();
+    public io.temporal.samples.protoPayload.Person getDefaultInstanceForType() {
+      return io.temporal.samples.protoPayload.Person.getDefaultInstance();
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Person build() {
-      io.temporal.samples.proto.Person result = buildPartial();
+    public io.temporal.samples.protoPayload.Person build() {
+      io.temporal.samples.protoPayload.Person result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -1279,15 +1279,15 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public io.temporal.samples.proto.Person buildPartial() {
-      io.temporal.samples.proto.Person result = new io.temporal.samples.proto.Person(this);
+    public io.temporal.samples.protoPayload.Person buildPartial() {
+      io.temporal.samples.protoPayload.Person result = new io.temporal.samples.protoPayload.Person(this);
       buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartialRepeatedFields(io.temporal.samples.proto.Person result) {
+    private void buildPartialRepeatedFields(io.temporal.samples.protoPayload.Person result) {
       if (phonesBuilder_ == null) {
         if (((bitField0_ & 0x00000008) != 0)) {
           phones_ = java.util.Collections.unmodifiableList(phones_);
@@ -1299,7 +1299,7 @@ private static final long serialVersionUID = 0L;
       }
     }
 
-    private void buildPartial0(io.temporal.samples.proto.Person result) {
+    private void buildPartial0(io.temporal.samples.protoPayload.Person result) {
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -1351,16 +1351,16 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof io.temporal.samples.proto.Person) {
-        return mergeFrom((io.temporal.samples.proto.Person)other);
+      if (other instanceof io.temporal.samples.protoPayload.Person) {
+        return mergeFrom((io.temporal.samples.protoPayload.Person)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(io.temporal.samples.proto.Person other) {
-      if (other == io.temporal.samples.proto.Person.getDefaultInstance()) return this;
+    public Builder mergeFrom(io.temporal.samples.protoPayload.Person other) {
+      if (other == io.temporal.samples.protoPayload.Person.getDefaultInstance()) return this;
       if (other.hasName()) {
         name_ = other.name_;
         bitField0_ |= 0x00000001;
@@ -1442,9 +1442,9 @@ private static final long serialVersionUID = 0L;
               break;
             } // case 26
             case 34: {
-              io.temporal.samples.proto.Person.PhoneNumber m =
+              io.temporal.samples.protoPayload.Person.PhoneNumber m =
                   input.readMessage(
-                      io.temporal.samples.proto.Person.PhoneNumber.PARSER,
+                      io.temporal.samples.protoPayload.Person.PhoneNumber.PARSER,
                       extensionRegistry);
               if (phonesBuilder_ == null) {
                 ensurePhonesIsMutable();
@@ -1671,22 +1671,22 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.util.List<io.temporal.samples.proto.Person.PhoneNumber> phones_ =
+    private java.util.List<io.temporal.samples.protoPayload.Person.PhoneNumber> phones_ =
       java.util.Collections.emptyList();
     private void ensurePhonesIsMutable() {
       if (!((bitField0_ & 0x00000008) != 0)) {
-        phones_ = new java.util.ArrayList<io.temporal.samples.proto.Person.PhoneNumber>(phones_);
+        phones_ = new java.util.ArrayList<io.temporal.samples.protoPayload.Person.PhoneNumber>(phones_);
         bitField0_ |= 0x00000008;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        io.temporal.samples.proto.Person.PhoneNumber, io.temporal.samples.proto.Person.PhoneNumber.Builder, io.temporal.samples.proto.Person.PhoneNumberOrBuilder> phonesBuilder_;
+        io.temporal.samples.protoPayload.Person.PhoneNumber, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder, io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder> phonesBuilder_;
 
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public java.util.List<io.temporal.samples.proto.Person.PhoneNumber> getPhonesList() {
+    public java.util.List<io.temporal.samples.protoPayload.Person.PhoneNumber> getPhonesList() {
       if (phonesBuilder_ == null) {
         return java.util.Collections.unmodifiableList(phones_);
       } else {
@@ -1706,7 +1706,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public io.temporal.samples.proto.Person.PhoneNumber getPhones(int index) {
+    public io.temporal.samples.protoPayload.Person.PhoneNumber getPhones(int index) {
       if (phonesBuilder_ == null) {
         return phones_.get(index);
       } else {
@@ -1717,7 +1717,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
     public Builder setPhones(
-        int index, io.temporal.samples.proto.Person.PhoneNumber value) {
+        int index, io.temporal.samples.protoPayload.Person.PhoneNumber value) {
       if (phonesBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -1734,7 +1734,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
     public Builder setPhones(
-        int index, io.temporal.samples.proto.Person.PhoneNumber.Builder builderForValue) {
+        int index, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder builderForValue) {
       if (phonesBuilder_ == null) {
         ensurePhonesIsMutable();
         phones_.set(index, builderForValue.build());
@@ -1747,7 +1747,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public Builder addPhones(io.temporal.samples.proto.Person.PhoneNumber value) {
+    public Builder addPhones(io.temporal.samples.protoPayload.Person.PhoneNumber value) {
       if (phonesBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -1764,7 +1764,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
     public Builder addPhones(
-        int index, io.temporal.samples.proto.Person.PhoneNumber value) {
+        int index, io.temporal.samples.protoPayload.Person.PhoneNumber value) {
       if (phonesBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -1781,7 +1781,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
     public Builder addPhones(
-        io.temporal.samples.proto.Person.PhoneNumber.Builder builderForValue) {
+        io.temporal.samples.protoPayload.Person.PhoneNumber.Builder builderForValue) {
       if (phonesBuilder_ == null) {
         ensurePhonesIsMutable();
         phones_.add(builderForValue.build());
@@ -1795,7 +1795,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
     public Builder addPhones(
-        int index, io.temporal.samples.proto.Person.PhoneNumber.Builder builderForValue) {
+        int index, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder builderForValue) {
       if (phonesBuilder_ == null) {
         ensurePhonesIsMutable();
         phones_.add(index, builderForValue.build());
@@ -1809,7 +1809,7 @@ private static final long serialVersionUID = 0L;
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
     public Builder addAllPhones(
-        java.lang.Iterable<? extends io.temporal.samples.proto.Person.PhoneNumber> values) {
+        java.lang.Iterable<? extends io.temporal.samples.protoPayload.Person.PhoneNumber> values) {
       if (phonesBuilder_ == null) {
         ensurePhonesIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1849,14 +1849,14 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public io.temporal.samples.proto.Person.PhoneNumber.Builder getPhonesBuilder(
+    public io.temporal.samples.protoPayload.Person.PhoneNumber.Builder getPhonesBuilder(
         int index) {
       return getPhonesFieldBuilder().getBuilder(index);
     }
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public io.temporal.samples.proto.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
+    public io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
         int index) {
       if (phonesBuilder_ == null) {
         return phones_.get(index);  } else {
@@ -1866,7 +1866,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public java.util.List<? extends io.temporal.samples.proto.Person.PhoneNumberOrBuilder> 
+    public java.util.List<? extends io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder>
          getPhonesOrBuilderList() {
       if (phonesBuilder_ != null) {
         return phonesBuilder_.getMessageOrBuilderList();
@@ -1877,31 +1877,31 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public io.temporal.samples.proto.Person.PhoneNumber.Builder addPhonesBuilder() {
+    public io.temporal.samples.protoPayload.Person.PhoneNumber.Builder addPhonesBuilder() {
       return getPhonesFieldBuilder().addBuilder(
-          io.temporal.samples.proto.Person.PhoneNumber.getDefaultInstance());
+          io.temporal.samples.protoPayload.Person.PhoneNumber.getDefaultInstance());
     }
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public io.temporal.samples.proto.Person.PhoneNumber.Builder addPhonesBuilder(
+    public io.temporal.samples.protoPayload.Person.PhoneNumber.Builder addPhonesBuilder(
         int index) {
       return getPhonesFieldBuilder().addBuilder(
-          index, io.temporal.samples.proto.Person.PhoneNumber.getDefaultInstance());
+          index, io.temporal.samples.protoPayload.Person.PhoneNumber.getDefaultInstance());
     }
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 4;</code>
      */
-    public java.util.List<io.temporal.samples.proto.Person.PhoneNumber.Builder> 
+    public java.util.List<io.temporal.samples.protoPayload.Person.PhoneNumber.Builder>
          getPhonesBuilderList() {
       return getPhonesFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        io.temporal.samples.proto.Person.PhoneNumber, io.temporal.samples.proto.Person.PhoneNumber.Builder, io.temporal.samples.proto.Person.PhoneNumberOrBuilder> 
+        io.temporal.samples.protoPayload.Person.PhoneNumber, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder, io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder>
         getPhonesFieldBuilder() {
       if (phonesBuilder_ == null) {
         phonesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            io.temporal.samples.proto.Person.PhoneNumber, io.temporal.samples.proto.Person.PhoneNumber.Builder, io.temporal.samples.proto.Person.PhoneNumberOrBuilder>(
+            io.temporal.samples.protoPayload.Person.PhoneNumber, io.temporal.samples.protoPayload.Person.PhoneNumber.Builder, io.temporal.samples.protoPayload.Person.PhoneNumberOrBuilder>(
                 phones_,
                 ((bitField0_ & 0x00000008) != 0),
                 getParentForChildren(),
@@ -1927,12 +1927,12 @@ private static final long serialVersionUID = 0L;
   }
 
   // @@protoc_insertion_point(class_scope:tutorial.Person)
-  private static final io.temporal.samples.proto.Person DEFAULT_INSTANCE;
+  private static final io.temporal.samples.protoPayload.Person DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new io.temporal.samples.proto.Person();
+    DEFAULT_INSTANCE = new io.temporal.samples.protoPayload.Person();
   }
 
-  public static io.temporal.samples.proto.Person getDefaultInstance() {
+  public static io.temporal.samples.protoPayload.Person getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
@@ -1968,7 +1968,7 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
-  public io.temporal.samples.proto.Person getDefaultInstanceForType() {
+  public io.temporal.samples.protoPayload.Person getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

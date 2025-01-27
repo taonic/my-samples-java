@@ -28,7 +28,7 @@ import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.common.reporter.MicrometerClientStatsReporter;
-import io.temporal.samples.workertuning.MetricsUtils;
+import io.temporal.samples.workerTuning.MetricsUtils;
 import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;

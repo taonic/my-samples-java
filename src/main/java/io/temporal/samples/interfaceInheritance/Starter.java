@@ -1,4 +1,4 @@
-package io.temporal.samples.interface_inheritance;
+package io.temporal.samples.interfaceInheritance;
 
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityOptions;

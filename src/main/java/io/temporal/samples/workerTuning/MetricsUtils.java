@@ -1,4 +1,4 @@
-package io.temporal.samples.workertuning;
+package io.temporal.samples.workerTuning;
 
 import com.sun.net.httpserver.HttpServer;
 import io.micrometer.prometheus.PrometheusMeterRegistry;

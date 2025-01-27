@@ -17,7 +17,7 @@
  *  permissions and limitations under the License.
  */
 
-package io.temporal.samples.sequencedupdate;
+package io.temporal.samples.sequencedUpdate;
 
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;

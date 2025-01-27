@@ -2,7 +2,7 @@
 // source: addressbook.proto
 
 // Protobuf Java Version: 3.25.3
-package io.temporal.samples.proto;
+package io.temporal.samples.protoPayload;
 
 public interface AddressBookOrBuilder extends
     // @@protoc_insertion_point(interface_extends:tutorial.AddressBook)
@@ -11,12 +11,12 @@ public interface AddressBookOrBuilder extends
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
-  java.util.List<io.temporal.samples.proto.Person> 
+  java.util.List<io.temporal.samples.protoPayload.Person>
       getPeopleList();
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
-  io.temporal.samples.proto.Person getPeople(int index);
+  io.temporal.samples.protoPayload.Person getPeople(int index);
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
@@ -24,11 +24,11 @@ public interface AddressBookOrBuilder extends
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
-  java.util.List<? extends io.temporal.samples.proto.PersonOrBuilder> 
+  java.util.List<? extends io.temporal.samples.protoPayload.PersonOrBuilder>
       getPeopleOrBuilderList();
   /**
    * <code>repeated .tutorial.Person people = 1;</code>
    */
-  io.temporal.samples.proto.PersonOrBuilder getPeopleOrBuilder(
+  io.temporal.samples.protoPayload.PersonOrBuilder getPeopleOrBuilder(
       int index);
 }
