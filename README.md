@@ -4,37 +4,37 @@ A collection of samples demonstrating various features and patterns using the Te
 
 ## Samples
 
-### [Activity Queue Segregation](/src/main/java/io/temporal/samples/activityQueueSegregation)
+### [Activity Queue Segregation](src/main/java/io/temporal/samples/activityQueueSegregation)
 Demonstrates how to execute activities on separate task queues by configuring different workers for different activity types.
 
-### [Context Aware Codec](/src/main/java/io/temporal/samples/contextAwareCodec)
+### [Context Aware Codec](src/main/java/io/temporal/samples/contextAwareCodec)
 Shows how to implement context-aware payload encryption where encryption keys are determined dynamically based on activity type.
 
-### [Context Propagation](/src/main/java/io/temporal/samples/context/propagation)
+### [Context Propagation](src/main/java/io/temporal/samples/contextPropagation)
 Illustrates how to propagate context (like MDC) through workflow execution across multiple activities.
 
-### [Grouped Activities](/src/main/java/io/temporal/samples/groupedActivities)
+### [Grouped Activities](src/main/java/io/temporal/samples/groupedActivities)
 Demonstrates patterns for organizing and executing related activities in groups, both sequentially and in parallel.
 
-### [Interface Inheritance](/src/main/java/io/temporal/samples/interface_inheritance)
+### [Interface Inheritance](src/main/java/io/temporal/samples/interfaceInheritance)
 Shows how to use interface inheritance with Temporal workflows to share common workflow methods.
 
-### [Protocol Buffers](/src/main/java/io/temporal/samples/proto)
+### [Protocol Buffers](src/main/java/io/temporal/samples/protoPayload)
 Demonstrates using Protocol Buffers (protobuf) with Temporal for efficient data serialization.
 
-### [Retry NDE (Non-Deterministic Errors)](/src/main/java/io/temporal/samples/retrynde)
+### [Retry NDE (Non-Deterministic Errors)](src/main/java/io/temporal/samples/retrynde)
 Shows how to handle and retry workflows that encounter non-deterministic errors during execution.
 
-### [Sequenced Update](/src/main/java/io/temporal/samples/sequencedupdate)
+### [Sequenced Update](src/main/java/io/temporal/samples/sequencedUpdate)
 Demonstrates using workflow queue to sequence workflow updates, useful for handling signals in order.
 
-### [Signal Watcher](/src/main/java/io/temporal/samples/signalWatcher)
+### [Signal Watcher](src/main/java/io/temporal/samples/signalWatcher)
 Implements a pattern for monitoring workflow signals with timeout detection and metrics tracking.
 
-### [Timeout Handler](/src/main/java/io/temporal/samples/timeoutHandler)
+### [Timeout Handler](src/main/java/io/temporal/samples/timeoutHandler)
 Shows how to implement custom timeout handling for long-running activities within workflows.
 
-### [Worker Tuning](/src/main/java/io/temporal/samples/workertuning)
+### [Worker Tuning](src/main/java/io/temporal/samples/workerTuning)
 Provides examples of worker tuning techniques for different resource contention scenarios, with Prometheus metrics integration.
 
 ## Building and Running

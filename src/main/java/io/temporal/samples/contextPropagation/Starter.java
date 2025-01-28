@@ -1,4 +1,4 @@
-package io.temporal.samples.context.propagation;
+package io.temporal.samples.contextPropagation;
 
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
