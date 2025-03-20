@@ -99,6 +99,9 @@ public class Starter implements Runnable {
     @Option(names = "--client-cert-path", description = "The mTLS client certificate for authenticating to the namespace")
     static String client_cert_path;
 
+    @Option(names = "--failure-ratio", description = "The ratio for forced Workflow Task failures. Value between 0 - 100", defaultValue = "0")
+    static int failureRatio;
+
     @ActivityInterface
     public interface SlowActivities {
         @ActivityMethod(name = "slowActivity")
@@ -137,24 +140,10 @@ public class Starter implements Runnable {
         public byte[] slowActivity(double seconds) {
             ActivityExecutionContext context = Activity.getExecutionContext();
             long start = System.currentTimeMillis();
-            Random random = new Random();
-            long jitter = random.nextInt(100);
-            if (jitter > 95) {
-                // fail 20% of the tasks
-                throw new RuntimeException("Failing the Activity Task for 5% of the time.");
-            } else {
-                int additionalSleep = random.nextInt(2);
-                for (int i = 0; i < seconds + additionalSleep; i++) {
-                    try {
-                        context.heartbeat(i);
-                        Thread.sleep(1000);
-                    } catch(ActivityCompletionException e){
-                        log.info("Activity is cancelled");
-                        throw e;
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+            try {
+                Thread.sleep((long) (1000 * seconds));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
             log.debug("Time elapsed: {}", System.currentTimeMillis() - start);
             return new byte[1];
@@ -162,7 +151,6 @@ public class Starter implements Runnable {
 
         @Override
         public byte[] largeActivity() {
-            //long start = System.currentTimeMillis();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -202,28 +190,15 @@ public class Starter implements Runnable {
             List<Promise<byte[]>> promisesActivities = new ArrayList<>();
             List<Promise<byte[]>> promisesLocalActivities = new ArrayList<>();
             Random random = new Random();
-            long failureRatio = random.nextInt(100);
-            if (failureRatio > 95) {
-                throw new RuntimeException("Failing WFT 5% of the time");
+            long randomness = random.nextInt(100);
+            if (randomness > 100 - failureRatio) {
+                throw new RuntimeException("Simulate failed Workflow Tasks");
             }
-            CancellationScope scope =
-                    Workflow.newCancellationScope(
-                            () -> {
-                                for (int i = 0; i < concurrency; i++) {
-                                    promisesActivities.add(Async.function(activities::slowActivity, 2.0));
-                                    promisesLocalActivities.add(Async.function(localActivities::slowActivity, 1.0));
-                                }
-                            });
-            scope.run();
-            Workflow.sleep(1000);
-            scope.cancel();
+            for (int i = 0; i < concurrency; i++) {
+                promisesActivities.add(Async.function(activities::slowActivity, 2.0));
+            }
             for (Promise<byte[]> promise : promisesActivities) {
-                try {
-                    promise.get();
-                } catch (ActivityFailure af) {
-                    scope.cancel();
-                    return;
-                }
+                promise.get();
             }
         }
     }
