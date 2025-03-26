@@ -42,7 +42,7 @@ First we will run the example with:
 - Insufficient "Activity Slots Available" is evident.
 - Next step: Increase `setMaxConcurrentActivityExecutionSize`
 
-![](/src/main/java/io/temporal/samples/workertuning/assets/5x200.png)
+![](/src/main/java/io/temporal/samples/workerTuning/assets/5x200.png)
 
 
 
@@ -62,7 +62,7 @@ Next we will increase the Activity Execution Slots to 800:
 - Based on the 35ms gRPC request latency from the "Long Poll Latency" graph (not included in screenshot), max throughput for 5 poller is 140 RPS (`(1000ms/35ms) * 5`). We can tell from the "Polled Activity Tasks Per Second" graph that we are maxing out the poller capacity.
 - Next step: Increase `MaxConcurrentActivityTaskPollers`
 
-![](/src/main/java/io/temporal/samples/workertuning/assets/5x800.png)
+![](/src/main/java/io/temporal/samples/workerTuning/assets/5x800.png)
 
 ### Run #3
 Let's increase the Activity Pollers to 80:
@@ -79,7 +79,7 @@ Let's increase the Activity Pollers to 80:
 - However, the "Activity Slots Available" dropped to 0 once again
 - Next step: Further increase `setMaxConcurrentActivityExecutionSize`
 
-![](/src/main/java/io/temporal/samples/workertuning/assets/80x800.png)
+![](/src/main/java/io/temporal/samples/workerTuning/assets/80x800.png)
 
 
 ### Run #4
