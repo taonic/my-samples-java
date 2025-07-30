@@ -107,6 +107,9 @@ public class Starter {
         @UpdateMethod
         String addGreeting(String name);
 
+        @SignalMethod
+        void addGreeting2(String name);
+
         // Define the workflow exit signal method. This method is executed when the workflow receives a
         // signal.
         @SignalMethod
@@ -130,6 +133,8 @@ public class Starter {
         private final List<String> receivedMessages = new ArrayList<>(10);
         private boolean exit = false;
 
+        private WorkflowLock lock = Workflow.newWorkflowLock();
+
         private final GreetingActivities activities =
                 Workflow.newActivityStub(
                         GreetingActivities.class,
@@ -143,10 +148,22 @@ public class Starter {
                 }
                 QueuedCommand queuedCommand =
                         commandQueue.take(); // It will block at here if the queue is empty
-                String result = activities.composeGreeting("Hello", queuedCommand.value);
+                String result = process(queuedCommand.value);
+
                 receivedMessages.add(result);
                 queuedCommand.promise.complete(
                         result); // complete the command promise so update (addGreeting) can return the result
+            }
+        }
+
+        private String process(String value) {
+            try{
+                lock.lock();
+                String result1 = activities.composeGreeting("Hello", value);
+                String result = activities.composeGreeting("Hello", result1);
+                return result;
+            } finally {
+                lock.unlock();
             }
         }
 
@@ -166,6 +183,13 @@ public class Starter {
             QueuedCommand queuedCommand = new QueuedCommand(value, promise);
             this.commandQueue.put(queuedCommand);
             return queuedCommand.promise.get();
+        }
+
+        @Override
+        public void addGreeting2(String value) {
+            CompletablePromise<String> promise = Workflow.newPromise();
+            QueuedCommand queuedCommand = new QueuedCommand(value, promise);
+            this.commandQueue.put(queuedCommand);
         }
 
         @Override
@@ -225,7 +249,7 @@ public class Starter {
         WorkflowOptions workflowOptions =
                 WorkflowOptions.newBuilder()
                         .setTaskQueue(TASK_QUEUE)
-                        .setWorkflowId(WORKFLOW_ID + UUID.randomUUID())
+                        .setWorkflowId(WORKFLOW_ID)
                         .build();
 
         // Create the workflow client stub. It is used to start the workflow execution.
@@ -240,12 +264,8 @@ public class Starter {
         WorkflowStub untypedWorkflowStub = WorkflowStub.fromTyped(workflow);
 
         for (int i = 0; i < concurrency; i++) {
-            Thread.sleep(50); // space out the requests to make sure Updates is received in order
-            CompletableFuture<String> f =
-                    untypedWorkflowStub
-                            .startUpdate("addGreeting", WorkflowUpdateStage.ACCEPTED, String.class, "Again " + i)
-                            .getResultAsync();
-            futures[i] = f;
+            Thread.sleep(500); // space out the requests to make sure Updates is received in order
+            untypedWorkflowStub.signal("addGreeting2",  "Again" + i);
         }
 
         // Now let's send our exit signal to the workflow

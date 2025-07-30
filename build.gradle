@@ -51,4 +51,7 @@ application {
 task execute(type: JavaExec) {
     mainClass = findProperty("mainClass") ?: ""
     classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty("args")) {
+        args project.property("args").split(" ")
+    }
 }
