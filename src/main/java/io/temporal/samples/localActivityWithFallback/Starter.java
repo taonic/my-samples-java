@@ -83,6 +83,26 @@ public class Starter {
         }
     }
 
+    static class FallbackActivityStub<T> {
+        private static final Logger log = LoggerFactory.getLogger(FallbackActivityStub.class);
+        private final T localStub;
+        private final T normalStub;
+        
+        public FallbackActivityStub(T localStub, T normalStub) {
+            this.localStub = localStub;
+            this.normalStub = normalStub;
+        }
+        
+        public <R> R execute(java.util.function.Function<T, R> method) {
+            try {
+                return method.apply(localStub);
+            } catch (ActivityFailure e) {
+                log.warn("Local activity {} failed, falling back to normal activity: {}", e.getActivityType(), e.getMessage());
+                return method.apply(normalStub);
+            }
+        }
+    }
+
     @WorkflowInterface
     public interface GreetingWorkflow {
         @WorkflowMethod
@@ -91,9 +111,7 @@ public class Starter {
 
     // Workflow implementation demonstrating fallback from local to normal activities
     public static class GreetingWorkflowImpl implements GreetingWorkflow {
-        private static final Logger log = LoggerFactory.getLogger(GreetingWorkflowImpl.class);
-        // Local activity stub with short timeout and retry policy
-        private final GreetingActivities localActivities =
+        private final FallbackActivityStub<GreetingActivities> activities = new FallbackActivityStub<>(
                 Workflow.newLocalActivityStub(
                         GreetingActivities.class,
                         LocalActivityOptions.newBuilder()
@@ -103,36 +121,18 @@ public class Starter {
                                         .setInitialInterval(Duration.ofMillis(50))
                                         .setBackoffCoefficient(1)
                                         .build())
-                                .build());
-
-        // Normal activity stub as fallback with longer timeout
-        private final GreetingActivities normalActivities =
+                                .build()),
                 Workflow.newActivityStub(
                         GreetingActivities.class,
                         ActivityOptions.newBuilder()
                                 .setStartToCloseTimeout(Duration.ofSeconds(10))
-                                .build());
+                                .build())
+        );
 
         @Override
         public String getGreeting(String name) {
-            // Try local activity first, fallback to normal activity on retry exhaustion
-            String greeting;
-            try {
-                greeting = localActivities.getGreeting(name);
-            } catch (ActivityFailure e) {
-                log.warn("Local activity {} failed, falling back to normal activity: {}", e.getActivityType(), e.getMessage());
-                greeting = normalActivities.getGreeting(name);
-            }
-
-            String result;
-            try {
-                result = localActivities.formatMessage(greeting);
-            } catch (ActivityFailure e) {
-                log.warn("Local activity {} failed, falling back to normal activity: {}", e.getActivityType(), e.getMessage());
-                result = normalActivities.formatMessage(greeting);
-            }
-
-            return result;
+            String greeting = activities.execute(stub -> stub.getGreeting(name));
+            return activities.execute(stub -> stub.formatMessage(greeting));
         }
     }
 
