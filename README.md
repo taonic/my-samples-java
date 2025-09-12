@@ -19,6 +19,9 @@ Demonstrates patterns for organizing and executing related activities in groups,
 ### [Interface Inheritance](src/main/java/io/temporal/samples/interfaceInheritance)
 Shows how to use interface inheritance with Temporal workflows to share common workflow methods.
 
+### [Manual Activity Retry](src/main/java/io/temporal/samples/manualActivityRetry)
+Demonstrates manual activity retry using workflow signals instead of automatic retry policies.
+
 ### [Protocol Buffers](src/main/java/io/temporal/samples/protoPayload)
 Demonstrates using Protocol Buffers (protobuf) with Temporal for efficient data serialization.
 
