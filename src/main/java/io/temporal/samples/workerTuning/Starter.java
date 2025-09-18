@@ -28,14 +28,12 @@ import io.micrometer.core.instrument.binder.system.ProcessorMetrics;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.temporal.activity.*;
-import io.temporal.client.ActivityCompletionException;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.common.converter.CodecDataConverter;
 import io.temporal.common.converter.DefaultDataConverter;
 import io.temporal.common.reporter.MicrometerClientStatsReporter;
-import io.temporal.failure.ActivityFailure;
 import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
@@ -173,22 +171,13 @@ public class Starter implements Runnable {
                 Workflow.newActivityStub(
                         SlowActivities.class,
                         ActivityOptions.newBuilder()
-                                .setHeartbeatTimeout(Duration.ofSeconds(2))
                                 .setCancellationType(ActivityCancellationType.WAIT_CANCELLATION_COMPLETED)
-                                .setStartToCloseTimeout(Duration.ofSeconds(30))
-                                .build());
-
-        private final SlowActivities localActivities =
-                Workflow.newLocalActivityStub(
-                        SlowActivities.class,
-                        LocalActivityOptions.newBuilder()
                                 .setStartToCloseTimeout(Duration.ofSeconds(30))
                                 .build());
 
         @Override
         public void doWork(int concurrency) {
             List<Promise<byte[]>> promisesActivities = new ArrayList<>();
-            List<Promise<byte[]>> promisesLocalActivities = new ArrayList<>();
             Random random = new Random();
             long randomness = random.nextInt(100);
             if (randomness > 100 - failureRatio) {
