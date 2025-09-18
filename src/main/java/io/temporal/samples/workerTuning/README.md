@@ -33,8 +33,13 @@ First we will run the example with:
 - 200 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
-  -PactivityPollers=5 -PactivityExecSlots=200
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter --args=" \
+--client-cert-path=<path to cert> \
+--client-key-path=<path to key> \
+--temporal-endpoint=<namespace.account>.tmprl.cloud:7233 \
+--temporal-namespace=<namespace.account> \
+--activity-pollers=5 \
+--activity-slots=200"
 ```
 
 #### Analysis
@@ -52,8 +57,13 @@ Next we will increase the Activity Execution Slots to 800:
 - 800 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
-  -PactivityPollers=5 -PactivityExecSlots=800
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter --args=" \
+--client-cert-path=<path to cert> \
+--client-key-path=<path to key> \
+--temporal-endpoint=<namespace.account>.tmprl.cloud:7233 \
+--temporal-namespace=<namespace.account> \
+--activity-pollers=5 \
+--activity-slots=800"
 ```
 
 #### Analysis
@@ -70,8 +80,13 @@ Let's increase the Activity Pollers to 80:
 - 800 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
-  -PactivityPollers=80 -PactivityExecSlots=800
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter --args=" \
+--client-cert-path=<path to cert> \
+--client-key-path=<path to key> \
+--temporal-endpoint=<namespace.account>.tmprl.cloud:7233 \
+--temporal-namespace=<namespace.account> \
+--activity-pollers=80 \
+--activity-slots=800"
 ```
 
 #### Analysis
@@ -88,8 +103,13 @@ Finally, we will increase the Activity Execution Slots to 1600:
 - 1600 Activity Execution Slots
 
 ```
-./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter \
-  -PactivityPollers=80 -PactivityExecSlots=1600
+./gradlew -q execute -PmainClass=io.temporal.samples.workerTuning.Starter --args=" \
+--client-cert-path=<path to cert> \
+--client-key-path=<path to key> \
+--temporal-endpoint=<namespace.account>.tmprl.cloud:7233 \
+--temporal-namespace=<namespace.account> \
+--activity-pollers=80 \
+--activity-slots=1600"
 ```
 
 #### Analysis
