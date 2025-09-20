@@ -18,14 +18,10 @@ import io.temporal.common.SearchAttributeKey;
 import java.time.Duration;
 import java.util.Random;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Starter {
-
     static final String TASK_QUEUE = "ManualActivityRetryTaskQueue";
     static final String WORKFLOW_ID = "ManualActivityRetryWorkflow";
-    // Flag to control whether local activities should succeed (use --succeed-local to enable)
-    static boolean SUCCEED_LOCAL_ACTIVITIES = false;
 
     @ActivityInterface
     public interface GreetingActivities {
@@ -36,24 +32,22 @@ public class Starter {
         String formatMessage(String greeting);
     }
 
-    // Activity implementation that can simulate failures for local activities
+    // Activity implementation that fails when input string is prefixed with "invalid"
     static class GreetingActivitiesImpl implements GreetingActivities {
-        private static final Logger log = LoggerFactory.getLogger(GreetingActivitiesImpl.class);
-
         @Override
         public String getGreeting(String input) {
-            if (!input.startsWith("invalid")) {
-                return "Hi " + input;
+            if (input.startsWith("invalid")) {
+                throw ApplicationFailure.newNonRetryableFailure("invalid input", "ValidationFailure");
             }
-            throw ApplicationFailure.newNonRetryableFailure("invalid input", "ValidationFailure");
+            return "Hi " + input;
         }
 
         @Override
         public String formatMessage(String input) {
-            if (!input.startsWith("invalid")) {
-                return input + "!";
+            if (input.startsWith("invalid")) {
+                throw ApplicationFailure.newNonRetryableFailure("invalid input", "ValidationFailure");
             }
-            throw ApplicationFailure.newNonRetryableFailure("invalid input", "ValidationFailure");
+            return input + "!";
         }
     }
 
@@ -89,14 +83,20 @@ public class Starter {
                 try {
                     String input = retryPayload != null ? retryPayload : "invalid-input";
                     T result = activityCall.apply(input);
+
+                    // Clear failure state
                     Workflow.setCurrentDetails("");
                     Workflow.upsertTypedSearchAttributes(SearchAttributeKey.forText("FailedActivity").valueUnset());
                     retryPayload = null;
                     return result;
                 } catch (ActivityFailure e) {
                     log.warn("Activity {} failed: {}", activityName, e.getMessage());
+
+                    // Set failure state
                     Workflow.setCurrentDetails("Got error " + e.getMessage() + ", waiting on user to send signal 'retry'");
                     Workflow.upsertTypedSearchAttributes(SearchAttributeKey.forText("FailedActivity").valueSet(activityName));
+
+                    // Wait for manual retry
                     Workflow.await(() -> retryPayload != null);
                 }
             }
