@@ -13,6 +13,9 @@ Shows how to implement context-aware payload encryption where encryption keys ar
 ### [Context Propagation](src/main/java/io/temporal/samples/contextPropagation)
 Illustrates how to propagate context (like MDC) through workflow execution across multiple activities.
 
+### [Custom Exception](src/main/java/io/temporal/samples/customException)
+Demonstrates handling custom exceptions in activities and workflows, including proper exception propagation and retry configuration.
+
 ### [Grouped Activities](src/main/java/io/temporal/samples/groupedActivities)
 Demonstrates patterns for organizing and executing related activities in groups, both sequentially and in parallel.
 

@@ -14,11 +14,22 @@ import io.temporal.worker.WorkerFactory;
 import io.temporal.workflow.Workflow;
 import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
+import feign.FeignException;
+import feign.Feign;
+import feign.RequestLine;
+import feign.Param;
+import feign.gson.GsonDecoder;
+import feign.gson.GsonEncoder;
 import java.time.Duration;
 
 public class CustomExceptionSample {
 
     static final String TASK_QUEUE = "CustomExceptionTaskQueue";
+
+    interface HttpBinClient {
+        @RequestLine("GET /status/{code}")
+        String getStatus(@Param("code") int code);
+    }
 
     // Custom exception types
     public static class ItemNotFoundException extends Exception {
@@ -36,17 +47,20 @@ public class CustomExceptionSample {
     @ActivityInterface
     public interface ItemActivity {
         @ActivityMethod
-        String findItem(String itemId);
+        String findItem(String itemId) throws FeignException.BadRequest;
     }
 
     static class ItemActivityImpl implements ItemActivity {
+        private final HttpBinClient httpClient = Feign.builder()
+            .encoder(new GsonEncoder())
+            .decoder(new GsonDecoder())
+            .target(HttpBinClient.class, "https://httpbin.org");
+
         @Override
-        public String findItem(String itemId) {
+        public String findItem(String itemId) throws FeignException.BadRequest {
             if ("missing".equals(itemId)) {
-                throw ApplicationFailure.newFailure(
-                    "Item with ID " + itemId + " not found.",
-                    ItemNotFoundException.class.getSimpleName()
-                );
+                // Make real HTTP request that returns 400 Bad Request
+                httpClient.getStatus(400);
             }
             return "Found item: " + itemId;
         }
@@ -64,7 +78,7 @@ public class CustomExceptionSample {
             ActivityOptions.newBuilder()
                 .setStartToCloseTimeout(Duration.ofSeconds(10))
                 .setRetryOptions(RetryOptions.newBuilder()
-                    .setDoNotRetry(ItemNotFoundException.class.getSimpleName())
+                    .setDoNotRetry(FeignException.BadRequest.class.getName())
                     .build())
                 .build()
         );
@@ -76,10 +90,10 @@ public class CustomExceptionSample {
             } catch (ActivityFailure e) {
                 if (e.getCause() instanceof ApplicationFailure) {
                     ApplicationFailure appFailure = (ApplicationFailure) e.getCause();
-                    if (ItemNotFoundException.class.getSimpleName().equals(appFailure.getType())) {
+                    if (FeignException.BadRequest.class.getName().equals(appFailure.getType())) {
                         throw ApplicationFailure.newNonRetryableFailure(
                             "Workflow: " + appFailure.getOriginalMessage(),
-                            WorkflowItemNotFoundException.class.getSimpleName()
+                            FeignException.BadRequest.class.getName()
                         );
                     }
                 }
@@ -111,12 +125,7 @@ public class CustomExceptionSample {
             String result = workflow.processItem("missing");
             System.out.println("Result: " + result);
         } catch (Exception e) {
-            if (e.getCause() instanceof ApplicationFailure) {
-                ApplicationFailure appFailure = (ApplicationFailure) e.getCause();
-                if (WorkflowItemNotFoundException.class.getSimpleName().equals(appFailure.getType())) {
-                    System.out.println("Not found error: " + appFailure.getOriginalMessage());
-                }
-            }
+            System.out.println("Outer error: " + e.getCause().toString());
         }
 
         System.exit(0);
