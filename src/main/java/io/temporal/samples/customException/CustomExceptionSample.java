@@ -85,20 +85,7 @@ public class CustomExceptionSample {
 
         @Override
         public String processItem(String itemId) {
-            try {
-                return activity.findItem(itemId);
-            } catch (ActivityFailure e) {
-                if (e.getCause() instanceof ApplicationFailure) {
-                    ApplicationFailure appFailure = (ApplicationFailure) e.getCause();
-                    if (FeignException.BadRequest.class.getName().equals(appFailure.getType())) {
-                        throw ApplicationFailure.newNonRetryableFailure(
-                            "Workflow: " + appFailure.getOriginalMessage(),
-                            FeignException.BadRequest.class.getName()
-                        );
-                    }
-                }
-                throw e;
-            }
+            return activity.findItem(itemId);
         }
     }
 
