@@ -1,0 +1,20 @@
+# Profile: orders
+#
+# Production topology: this deployable runs ONLY the orders domain worker. Deploy the same jar 20
+# times, once per domain profile, and each domain scales, deploys, and fails independently.
+#
+# Auto-discovery scans only the orders package, so only the orders worker starts. The explicit
+# `workers` block below tunes that worker's capacity for this domain's load profile — a
+# high-throughput domain gets more slots, a heavyweight-activity domain gets fewer.
+spring:
+  temporal:
+    workers:
+      - task-queue: orders
+        capacity:
+          max-concurrent-workflow-task-pollers: 5
+          max-concurrent-activity-task-pollers: 5
+          max-concurrent-workflow-task-executors: 100
+          max-concurrent-activity-executors: 200
+    workers-auto-discovery:
+      packages:
+        - io.temporal.samples.workerDeployment.domain.orders

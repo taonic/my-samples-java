@@ -1,0 +1,17 @@
+# Profile: all
+#
+# Local / development topology: one JVM hosts every domain's worker. Convenient for a laptop, but in
+# production you would NOT run all 20 domains in one process — you lose independent scaling and blast
+# radius isolation (see README). Auto-discovery scans the whole domain package tree, so it starts one
+# worker per Task Queue it finds (orders, payments, inventory), each with default capacity.
+spring:
+  temporal:
+    workers-auto-discovery:
+      packages:
+        - io.temporal.samples.workerDeployment.domain
+
+# Start a workflow on each Task Queue so you can see all three workers respond.
+sample:
+  demo:
+    enabled: true
+    task-queues: orders,payments,inventory

@@ -1,0 +1,16 @@
+# Profile: inventory
+#
+# Production topology: this deployable runs ONLY the inventory domain worker. See
+# application-orders.yml for the rationale.
+spring:
+  temporal:
+    workers:
+      - task-queue: inventory
+        capacity:
+          max-concurrent-workflow-task-pollers: 3
+          max-concurrent-activity-task-pollers: 3
+          max-concurrent-workflow-task-executors: 80
+          max-concurrent-activity-executors: 120
+    workers-auto-discovery:
+      packages:
+        - io.temporal.samples.workerDeployment.domain.inventory

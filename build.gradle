@@ -20,8 +20,16 @@ dependencies {
     // https://mvnrepository.com/artifact/org.basepom.maven/duplicate-finder-maven-plugin
     implementation group: 'org.basepom.maven', name: 'duplicate-finder-maven-plugin', version: '2.0.1'
 
-    implementation "io.temporal:temporal-sdk:1.31.0"
-    testImplementation "io.temporal:temporal-testing:1.31.0"
+    // 1.37.0 is required for the experimental standalone-Nexus client (io.temporal.client.NexusClient)
+    // used by the formValidation sample.
+    implementation "io.temporal:temporal-sdk:1.37.0"
+    testImplementation "io.temporal:temporal-testing:1.37.0"
+
+    // Spring Boot + Temporal Spring Boot integration (workerDeployment sample).
+    // The starter version must match the Temporal SDK version.
+    implementation platform('org.springframework.boot:spring-boot-dependencies:3.2.5')
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'io.temporal:temporal-spring-boot-starter:1.37.0'
 
     // Feign HTTP client dependencies
     implementation 'io.github.openfeign:feign-core:13.1'

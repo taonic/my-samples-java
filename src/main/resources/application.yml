@@ -1,0 +1,19 @@
+# Base configuration shared by every deployment of the worker-deployment sample.
+#
+# This file deliberately declares NO workers. A process only starts workers for the domains listed
+# under `workers-auto-discovery.packages` in the active profile (application-<profile>.yml). Run the
+# app with a profile, e.g.:
+#
+#   ./gradlew -q execute -PmainClass=io.temporal.samples.workerDeployment.Application \
+#       -Pargs="--spring.profiles.active=all"
+spring:
+  application:
+    name: temporal-worker-deployment
+  temporal:
+    namespace: default
+    connection:
+      target: local # host:port for a remote server, or "local" for `temporal server start-dev`
+
+sample:
+  demo:
+    enabled: false

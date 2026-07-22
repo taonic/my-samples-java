@@ -34,11 +34,17 @@ Shows how to handle and retry workflows that encounter non-deterministic errors 
 ### [Sequenced Update](src/main/java/io/temporal/samples/sequencedUpdate)
 Demonstrates using workflow queue to sequence workflow updates, useful for handling signals in order.
 
+### [Update-with-Start](src/main/java/io/temporal/samples/updateWithStart)
+Demonstrates Update-with-Start and what happens when the Update is rejected by its validator: the Workflow still starts because Update-with-Start is not atomic.
+
 ### [Signal Watcher](src/main/java/io/temporal/samples/signalWatcher)
 Implements a pattern for monitoring workflow signals with timeout detection and metrics tracking.
 
 ### [Timeout Handler](src/main/java/io/temporal/samples/timeoutHandler)
 Shows how to implement custom timeout handling for long-running activities within workflows.
+
+### [Worker Deployment Patterns](src/main/java/io/temporal/samples/workerDeployment)
+Architecture guidance for deploying 1,000 workflows across 20 domains: one task queue and one independently deployed worker fleet per domain, built with the Temporal Spring Boot integration and Spring profiles.
 
 ### [Worker Tuning](src/main/java/io/temporal/samples/workerTuning)
 Provides examples of worker tuning techniques for different resource contention scenarios, with Prometheus metrics integration.

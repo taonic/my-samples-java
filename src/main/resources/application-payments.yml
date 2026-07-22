@@ -1,0 +1,17 @@
+# Profile: payments
+#
+# Production topology: this deployable runs ONLY the payments domain worker. See application-orders.yml
+# for the rationale. Capacity here is tuned lower because payment activities are I/O-bound calls to an
+# external PSP that itself rate-limits us.
+spring:
+  temporal:
+    workers:
+      - task-queue: payments
+        capacity:
+          max-concurrent-workflow-task-pollers: 2
+          max-concurrent-activity-task-pollers: 2
+          max-concurrent-workflow-task-executors: 50
+          max-concurrent-activity-executors: 40
+    workers-auto-discovery:
+      packages:
+        - io.temporal.samples.workerDeployment.domain.payments
