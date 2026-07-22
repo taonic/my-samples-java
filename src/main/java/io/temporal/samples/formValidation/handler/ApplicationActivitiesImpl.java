@@ -1,5 +1,6 @@
 package io.temporal.samples.formValidation.handler;
 
+import io.temporal.failure.ApplicationFailure;
 import io.temporal.samples.formValidation.service.FormNexusService.SubmitScreenInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,20 @@ public class ApplicationActivitiesImpl implements ApplicationActivities {
     String id = "APP-" + Long.toString(Math.abs(input.getFields().hashCode()), 36).toUpperCase();
     logger.info("Reserved application ID {}", id);
     return id;
+  }
+
+  @Override
+  public void verifyApplicant(SubmitScreenInput input) {
+    String email = input.getFields().getOrDefault("email", "");
+    logger.info("Verifying applicant '{}' against external fraud/credit service...", email);
+    sleep(1000);
+    // Mock rule: anyone on the blocklisted domain fails verification.
+    if (email.endsWith("@blocked.com")) {
+      logger.info("Applicant '{}' failed background verification", email);
+      throw ApplicationFailure.newNonRetryableFailure(
+          "Applicant failed background verification: " + email, "VerificationFailed");
+    }
+    logger.info("Applicant '{}' passed background verification", email);
   }
 
   @Override

@@ -1,6 +1,7 @@
 package io.temporal.samples.formValidation.handler;
 
 import io.temporal.activity.ActivityOptions;
+import io.temporal.activity.LocalActivityOptions;
 import io.temporal.failure.ApplicationFailure;
 import io.temporal.samples.formValidation.service.FormNexusService.SubmitScreenInput;
 import io.temporal.samples.formValidation.service.FormRules;
@@ -19,6 +20,15 @@ public class ApplicationWorkflowImpl implements ApplicationWorkflow {
           ApplicationActivities.class,
           ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(30)).build());
 
+  // verifyApplicant runs as part of initialization, so it must be fast and its result gates the
+  // submit Update — a local activity keeps it cheap and inline with the init path.
+  private final ApplicationActivities localActivities =
+      Workflow.newLocalActivityStub(
+          ApplicationActivities.class,
+          LocalActivityOptions.newBuilder()
+              .setStartToCloseTimeout(Duration.ofSeconds(30))
+              .build());
+
   private boolean initDone = false;
   private String applicationId;
   private RuntimeException initError = null;
@@ -34,6 +44,10 @@ public class ApplicationWorkflowImpl implements ApplicationWorkflow {
         throw ApplicationFailure.newNonRetryableFailure(
             "Application failed validation: " + errors, "InvalidApplication");
       }
+      // Activity-based validation (external fraud/credit check) that can't run in the synchronous
+      // Nexus handler. Because it runs here, before initDone is set, a failure propagates out of the
+      // submit Update below — the caller is rejected and never receives an application ID.
+      localActivities.verifyApplicant(input);
       applicationId = activities.reserveApplicationId(input);
     } catch (RuntimeException e) {
       initError = e;

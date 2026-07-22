@@ -42,10 +42,21 @@ create a Workflow.
 runs the validation itself; only if it passes does it start the Workflow. Invalid submissions throw
 a `BAD_REQUEST` `HandlerException` and cost nothing — no Workflow is ever created.
 
+Validation comes in **two tiers**:
+
+1. **Stateless rules** ([`FormRules`](service/FormRules.java)) — cheap, synchronous field checks that
+   run in the Nexus handler *before* any Workflow exists. A failure here creates nothing.
+2. **Activity-based verification** (`verifyApplicant`) — a check that must call an external service
+   (fraud/credit), so it can't run in the Nexus handler. It runs as a **local activity during the
+   Workflow's initialization**, before the `submit` Update returns. A failure there propagates out of
+   the Update, so the caller is still rejected — with a `NexusOperationException` and no application
+   ID — even though the Workflow was technically started by the with-start.
+
 | Outcome | What happens | Workflow created? |
 | --- | --- | --- |
-| Invalid input | Handler throws `HandlerException(BAD_REQUEST)` | **No** |
+| Invalid input (stateless rules) | Handler throws `HandlerException(BAD_REQUEST)` | **No** |
 | Valid input | Handler starts the Workflow via Update-with-Start, returns the app ID early | **Yes — once** |
+| Fails activity-based verification | Local activity throws during init; the `submit` Update fails and the caller gets a `NexusOperationException` | **Yes, but completes rejected** |
 
 The same [`FormRules`](service/FormRules.java) drive both the handler's gate and the Workflow's
 defensive re-check at submit, so they can't drift apart.
@@ -58,25 +69,40 @@ sequenceDiagram
     participant Handler as submitScreen<br/>(Nexus handler)
     participant Rules as FormRules
     participant WF as ApplicationWorkflow
+    participant Act as verifyApplicant<br/>(local activity)
 
-    Note over Client,WF: Invalid submission — no Workflow created
+    Note over Client,Act: Scenario 1 — invalid input, rejected by handler (no Workflow)
     Client->>Handler: submitScreen(invalid data)
     Handler->>Rules: validate()
     Rules-->>Handler: errors
     Handler-->>Client: HandlerException(BAD_REQUEST)
     Note right of Handler: RUNNING Workflows = 0
 
-    Note over Client,WF: Valid submission — Workflow started once
+    Note over Client,Act: Scenario 2 — valid, Workflow started once
     Client->>Handler: submitScreen(valid data)
     Handler->>Rules: validate()
     Rules-->>Handler: ok
     Handler->>WF: Update-with-Start (submit)
     WF->>Rules: defensive re-check
+    WF->>Act: verifyApplicant()
+    Act-->>WF: ok
     WF-->>Handler: applicationId (early return)
     Handler-->>Client: SubmitResult(applicationId)
     Note right of WF: RUNNING Workflows = 1
     WF->>WF: slow provisioning continues
     WF-->>Client: completed
+
+    Note over Client,Act: Scenario 3 — activity-based verification fails the Update
+    Client->>Handler: submitScreen(valid data, blocked applicant)
+    Handler->>Rules: validate()
+    Rules-->>Handler: ok
+    Handler->>WF: Update-with-Start (submit)
+    WF->>Rules: defensive re-check
+    WF->>Act: verifyApplicant()
+    Act-->>WF: VerificationFailed
+    WF-->>Handler: submit Update fails (no early return)
+    Handler-->>Client: NexusOperationException
+    Note right of WF: Workflow started, then completes rejected
 ```
 
 ## Files
@@ -91,11 +117,13 @@ sequenceDiagram
   [`ApplicationWorkflowImpl.java`](handler/ApplicationWorkflowImpl.java) — the one Workflow, with the
   early-return `submit` Update.
 - [`handler/ApplicationActivities*.java`](handler/ApplicationActivities.java) — mint the application
-  ID (early-return value) and do the slow provisioning.
+  ID (early-return value), run the activity-based `verifyApplicant` check (fails on the `@blocked.com`
+  domain), and do the slow provisioning.
 - [`handler/HandlerWorker.java`](handler/HandlerWorker.java) — hosts the Nexus service, Workflow, and
   activities on one task queue.
-- [`FormClient.java`](FormClient.java) — submits invalid then valid data, proving the running-Workflow
-  count is 0 after the rejection and 1 after the valid submission.
+- [`FormClient.java`](FormClient.java) — runs three scenarios: invalid data (rejected, 0 Workflows),
+  valid data (early return, 1 Workflow), and valid data that fails `verifyApplicant` (submit rejected
+  even though a Workflow was started).
 
 ## Requirements
 
@@ -143,4 +171,6 @@ RUNNING ApplicationWorkflow executions after the invalid submission: 0 (expected
 Submit returned EARLY: Submission accepted. (applicationId=APP-...). Workflow keeps running.
 RUNNING ApplicationWorkflow executions right after the valid submission: 1 (expected 1)
 Workflow completed: Application processed successfully. (applicationId=APP-...)
+=== Scenario 3: valid form, but fails activity-based verification ===
+Submit rejected: activity-based verification failed the Update: ...Applicant failed background verification: mallory@blocked.com
 ```

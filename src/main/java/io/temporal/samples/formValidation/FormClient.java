@@ -36,6 +36,12 @@ import org.slf4j.LoggerFactory;
  * Workflow and returns the
  * application ID early, while the Workflow finishes processing in the
  * background.
+ * <li>Scenario 3 submits data that passes the synchronous validation but fails
+ * an <b>activity-based</b> verification (a local activity calling an external
+ * service). That check runs during initialization, so its failure propagates
+ * out of the submit Update — the submit is rejected with no application ID.
+ * Unlike Scenario 1, a Workflow is started by the with-start, but it completes
+ * in the rejected state.
  * </ul>
  */
 public class FormClient {
@@ -101,6 +107,26 @@ public class FormClient {
                 "Workflow completed: {} (applicationId={})",
                 finalResult.getStatus(),
                 finalResult.getApplicationId());
+
+        // -------------------------------------------------------------------------------------------
+        // Scenario 3: passes synchronous validation, but fails an activity-based verification. That
+        // verification runs (as a local activity) during initialization, so its failure propagates
+        // out of the submit Update — the handler's executeUpdateWithStart throws and the caller's
+        // submit is rejected, with NO application ID returned. Unlike Scenario 1, a Workflow IS
+        // started by the with-start; it simply completes in the rejected state.
+        // -------------------------------------------------------------------------------------------
+        log.info("=== Scenario 3: valid form, but fails activity-based verification ===");
+        String blockedEmail = "mallory@blocked.com";
+        try {
+            SubmitResult r = submit(
+                    formClient,
+                    "blocked-applicant",
+                    FormRules.SCREEN_APPLICANT,
+                    Map.of("fullName", "Mallory", "email", blockedEmail));
+            log.error("Expected verification to fail the submit, but it returned: {}", r);
+        } catch (NexusOperationException e) {
+            log.info("Submit rejected: activity-based verification failed the Update: {}", e.getMessage());
+        }
 
         System.exit(0);
     }
